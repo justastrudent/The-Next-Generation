@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구현 준비 중입니다</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pretendard / Inter 폰트 설정 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            word-break: keep-all;
+        }
+        /* 은은한 부유 애니메이션 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 3.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col justify-between selection:bg-indigo-100 selection:text-indigo-700">
+
+    <!-- 상단 여백 및 미세 상태 바 -->
+    <header class="w-full py-6 px-4 flex justify-center">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200/80 shadow-xs text-xs font-medium text-slate-600">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            <span>SERVICE COMING SOON</span>
+        </div>
+    </header>
+
+    <!-- 중앙 메인 콘텐츠 카드 -->
+    <main class="flex-1 flex items-center justify-center px-4 sm:px-6 py-8">
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 px-8 py-14 sm:px-12 sm:py-16 text-center transition-all">
+            
+            <!-- 안내 아이콘 (개발/구현 중 SVG 일러스트) -->
+            <div class="mx-auto mb-7 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 animate-float shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- 기어 및 코드/공사 심볼 조합 -->
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+            </div>
+
+            <!-- 큰 제목 -->
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+                구현 준비 중입니다
+            </h1>
+
+        </div>
+    </main>
+
+    <!-- 하단 푸터 -->
+    <footer class="w-full py-6 px-4 text-center text-xs text-slate-400">
+        &copy; <span id="year"></span> All rights reserved.
+    </footer>
+
+    <script>
+        // 현재 연도 자동 표기
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
