@@ -1,0 +1,305 @@
+{
+  "facilities": 120,
+  "buildings": 8666,
+  "polygons": 8666,
+  "modelClearanceM": 0.15,
+  "conflictingComponents": 37,
+  "conflicts": [
+    {
+      "building": "233005",
+      "facility": "STOP_7090",
+      "kind": "stop",
+      "name": "",
+      "height": 6.2,
+      "tile": "1_3"
+    },
+    {
+      "building": "232936",
+      "facility": "STOP_7011",
+      "kind": "stop",
+      "name": "",
+      "height": 3.6,
+      "tile": "1_4"
+    },
+    {
+      "building": "558851",
+      "facility": "HUB_06",
+      "kind": "hub",
+      "name": "사곡리노유자시설",
+      "height": 5.6,
+      "tile": "1_4"
+    },
+    {
+      "building": "199688",
+      "facility": "HUB_05",
+      "kind": "hub",
+      "name": "",
+      "height": 3.1,
+      "tile": "2_1"
+    },
+    {
+      "building": "308306",
+      "facility": "HUB_07",
+      "kind": "hub",
+      "name": "",
+      "height": 4.896,
+      "tile": "2_3"
+    },
+    {
+      "building": "233526",
+      "facility": "STOP_7024",
+      "kind": "stop",
+      "name": "",
+      "height": 3.6,
+      "tile": "2_4"
+    },
+    {
+      "building": "233950",
+      "facility": "HUB_38",
+      "kind": "hub",
+      "name": "",
+      "height": 6.2,
+      "tile": "4_5"
+    },
+    {
+      "building": "199045",
+      "facility": "HUB_25",
+      "kind": "hub",
+      "name": "강내태암수정임대아파트",
+      "height": 9.52,
+      "tile": "4_8"
+    },
+    {
+      "building": "196737",
+      "facility": "HUB_28",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "5_0"
+    },
+    {
+      "building": "197189",
+      "facility": "HUB_29",
+      "kind": "hub",
+      "name": "",
+      "height": 7.9,
+      "tile": "5_10"
+    },
+    {
+      "building": "196849",
+      "facility": "DEPOT",
+      "kind": "depot",
+      "name": "",
+      "height": 7.3,
+      "tile": "5_10"
+    },
+    {
+      "building": "197862",
+      "facility": "HUB_30",
+      "kind": "hub",
+      "name": "",
+      "height": 8.8,
+      "tile": "5_10"
+    },
+    {
+      "building": "197829",
+      "facility": "HUB_30",
+      "kind": "hub",
+      "name": "",
+      "height": 8.8,
+      "tile": "5_10"
+    },
+    {
+      "building": "235328",
+      "facility": "HUB_11",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "5_11"
+    },
+    {
+      "building": "235351",
+      "facility": "HUB_12",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "5_12"
+    },
+    {
+      "building": "235358",
+      "facility": "HUB_12",
+      "kind": "hub",
+      "name": "",
+      "height": 7.95,
+      "tile": "5_12"
+    },
+    {
+      "building": "197942",
+      "facility": "HUB_03",
+      "kind": "hub",
+      "name": "",
+      "height": 9,
+      "tile": "5_6"
+    },
+    {
+      "building": "252341",
+      "facility": "HUB_26",
+      "kind": "hub",
+      "name": "",
+      "height": 11.9,
+      "tile": "5_8"
+    },
+    {
+      "building": "195581",
+      "facility": "HUB_17",
+      "kind": "hub",
+      "name": "",
+      "height": 3.1,
+      "tile": "6_10"
+    },
+    {
+      "building": "196318",
+      "facility": "HUB_18",
+      "kind": "hub",
+      "name": "두진아파트",
+      "height": 18.6,
+      "tile": "6_10"
+    },
+    {
+      "building": "196391",
+      "facility": "HUB_16",
+      "kind": "hub",
+      "name": "월곡아파트",
+      "height": 15.5,
+      "tile": "6_10"
+    },
+    {
+      "building": "196260",
+      "facility": "HUB_21",
+      "kind": "hub",
+      "name": "세진빌라",
+      "height": 12.4,
+      "tile": "6_10"
+    },
+    {
+      "building": "196269",
+      "facility": "HUB_21",
+      "kind": "hub",
+      "name": "세진빌라",
+      "height": 13.7,
+      "tile": "6_10"
+    },
+    {
+      "building": "235337",
+      "facility": "STOP_7069",
+      "kind": "stop",
+      "name": "",
+      "height": 3.6,
+      "tile": "6_11"
+    },
+    {
+      "building": "195874",
+      "facility": "STOP_7065",
+      "kind": "stop",
+      "name": "",
+      "height": 3.6,
+      "tile": "6_11"
+    },
+    {
+      "building": "235391",
+      "facility": "HUB_08",
+      "kind": "hub",
+      "name": "",
+      "height": 11.1,
+      "tile": "6_12"
+    },
+    {
+      "building": "196009",
+      "facility": "HUB_02",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "6_3"
+    },
+    {
+      "building": "196273",
+      "facility": "STOP_7007",
+      "kind": "stop",
+      "name": "",
+      "height": 3.6,
+      "tile": "6_4"
+    },
+    {
+      "building": "196296",
+      "facility": "HUB_04",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "6_7"
+    },
+    {
+      "building": "195553",
+      "facility": "HUB_23",
+      "kind": "hub",
+      "name": "",
+      "height": 3.1,
+      "tile": "7_10"
+    },
+    {
+      "building": "234276",
+      "facility": "HUB_09",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "7_12"
+    },
+    {
+      "building": "234280",
+      "facility": "HUB_09",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "7_12"
+    },
+    {
+      "building": "235121",
+      "facility": "HUB_09",
+      "kind": "hub",
+      "name": "",
+      "height": 3.1,
+      "tile": "7_12"
+    },
+    {
+      "building": "195120",
+      "facility": "HUB_01",
+      "kind": "hub",
+      "name": "",
+      "height": 4.5,
+      "tile": "7_4"
+    },
+    {
+      "building": "191999",
+      "facility": "HUB_36",
+      "kind": "hub",
+      "name": "",
+      "height": 3.6,
+      "tile": "8_12"
+    },
+    {
+      "building": "194302",
+      "facility": "HUB_13",
+      "kind": "hub",
+      "name": "",
+      "height": 6.2,
+      "tile": "8_4"
+    },
+    {
+      "building": "194030",
+      "facility": "HUB_14",
+      "kind": "hub",
+      "name": "",
+      "height": 6.2,
+      "tile": "9_4"
+    }
+  ]
+}

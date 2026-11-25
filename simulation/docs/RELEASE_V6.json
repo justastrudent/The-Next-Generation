@@ -1,0 +1,29 @@
+{
+  "base": "MetroRookies_Visual_Decision_v4(1).zip (user supplied)",
+  "protected_files_byte_identical": 596,
+  "data_files_byte_identical": 195,
+  "changed_original_paths": [
+    "START_HERE.txt",
+    "app.js",
+    "building-visuals.js",
+    "dispatch-panel.css",
+    "dispatch-panel.js",
+    "environment3d.js",
+    "gangnae_vworld_qgis_3d_fixed.html",
+    "index.html",
+    "research-workspace.js",
+    "serve.py",
+    "tests/building-visuals.test.mjs"
+  ],
+  "test_results": {
+    "node_pass": 44,
+    "node_not_run_to_completion": 1,
+    "reason": "replay-core.test.mjs requires external raw CSV files not in uploaded ZIP",
+    "browser": "Chromium navigation blocked by administrator; no visual V-World or GPU confirmation"
+  },
+  "notes": [
+    "No source facade photos: textures are generated illustrative swatches.",
+    "Native V-World building layer can be restored by turning off GIS building model checkbox; availability is provider dependent.",
+    "Existing route and decision data unchanged."
+  ]
+}

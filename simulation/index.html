@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1422">
+  <meta name="description" content="강내우체국 기반 여객·물류 통합 DRT. 7일 42회 실행 로그와 실제 도로망을 연결한 3D 운행 재현 및 연구 결과 비교.">
+  <title>MetroRookies · 운행 의사결정 v7</title>
+  <link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css?v=20261124-v3">
+  <link rel="stylesheet" href="./dispatch-panel.css?v=20261125-v6">
+  <link rel="stylesheet" href="./research-workspace.css?v=20261125-v6">
+  <link rel="stylesheet" href="./presentation-v7.css?v=20261125-v7">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="MetroRookies 홈"><img class="brand-logo" src="./assets/metrorookies-user-logo.png" width="76" height="33" alt="첨부한 팀 로고"><span><strong>MetroRookies</strong><small>GANGNAE · DRT REPLAY LAB</small></span></a>
+    <nav class="main-nav" aria-label="주요 화면"><button class="nav-btn active" data-panel="replay">운행 재현</button><button class="nav-btn" data-panel="compare">운영 비교</button><button class="nav-btn" data-panel="validation">데이터 검증</button></nav>
+    <div class="top-actions"><span class="data-tag" id="dataset-tag">실행자료 연결 중</span><button class="icon-button" id="settings-button" aria-label="지도 설정"><svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="m9 3-1 3-3 1-2 4 2 2v3l4 3 3-1 3 1 4-3v-3l2-2-2-4-3-1-1-3Z"/></svg></button></div>
+  </header>
+  <main class="workspace">
+    <aside class="sidebar">
+      <div class="side-scroll">
+        <div class="eyebrow">실행 조건</div>
+        <h1>강내면 DRT<br>시뮬레이터</h1>
+        <p class="intro">강내우체국을 거점으로 움직이는<br>DRT 3대의 여객·물류 통합운영.</p>
+        <div class="field"><label for="date-select">운행 날짜</label><select id="date-select" disabled><option>실행자료 불러오는 중</option></select></div>
+        <fieldset class="mode-field"><legend>운영 방식</legend><div class="segmented" id="mode-control"><button data-mode="passenger_only" aria-pressed="false">여객 전용</button><button data-mode="integrated" class="active" aria-pressed="true">여객 + 물류</button></div></fieldset>
+        <fieldset class="scenario-field"><legend>배차 시나리오</legend><div class="scenarios" id="scenario-control"><button data-scenario="S0" aria-pressed="false"><b>S0</b><span>거리</span></button><button data-scenario="S1" class="active" aria-pressed="true"><b>S1</b><span>대기시간</span></button><button data-scenario="S2" aria-pressed="false"><b>S2</b><span>통합비용</span></button></div></fieldset>
+        <p class="scenario-description" id="scenario-description">승객 대기시간 최소화</p>
+        <div class="side-divider"></div>
+        <div class="section-heading"><h2>차량 현황</h2><span>11명 · 물류 8개 / 대</span></div>
+        <div id="vehicle-list" class="vehicle-list" aria-label="차량 선택"></div>
+        <button class="wide-button" id="scene-button"><svg viewBox="0 0 24 24"><path d="m9 6 10 6-10 6Z"/></svg>다음 서비스 장면 보기</button>
+        <div class="side-divider"></div>
+        <div class="section-heading"><h2>선택 실행의 하루</h2><span>원본 집계</span></div>
+        <div class="mini-stats" id="daily-stats"><div><span>주행거리</span><strong>—<small>km</small></strong></div><div><span>평균 대기</span><strong>—<small>분</small></strong></div><div><span>여객 수송</span><strong>—<small>건</small></strong></div><div><span>물류 배송</span><strong>—<small>개</small></strong></div></div>
+        <div class="callout" id="wait-note">대기시간은 로그의 실제 결과를 표시합니다.</div>
+      </div>
+      <footer class="side-footer"><a href="https://github.com/km-minsang/MetroRookies" target="_blank" rel="noopener">GitHub 원본 연구자료</a><button id="about-button">재현 방법</button><span class="build-version">발표·모바일 v7 · 2026.11.25</span></footer>
+    </aside>
+    <section class="map-stage" aria-label="강내면 3D 운행 지도">
+      <div id="map" aria-label="3D 지도"></div>
+      <section id="roadview-panel" class="roadview-panel" hidden aria-label="카카오 실제 로드뷰" aria-hidden="true">
+        <div id="roadview-canvas" aria-label="카카오 로드뷰 촬영 사진"></div>
+        <div id="roadview-empty" class="roadview-empty"><div><span class="eyebrow">KAKAO ROADVIEW</span><h2>실제 도로에서 바라보기</h2><p id="roadview-empty-message">카카오 JavaScript 키를 연결해 주세요.</p><button id="roadview-empty-settings" type="button" class="primary">로드뷰 연결 설정</button></div></div>
+        <div class="roadview-tools"><div><strong id="roadview-vehicle">선택 차량 주변 실제 촬영 지점</strong><p id="roadview-status" role="status" aria-live="polite">로드뷰 연결 대기</p></div><div class="roadview-actions"><label><input id="roadview-heading" type="checkbox" checked>차량 방향 따라보기</label><button id="roadview-refresh" type="button">주변 다시 찾기</button><button id="roadview-settings-button" type="button" aria-label="카카오 로드뷰 연결 설정">연결 설정</button></div></div>
+      </section>
+      <div class="map-loading" id="loading"><div class="spinner"></div><strong>강내면 운행자료를 준비하고 있어요</strong><span id="load-detail">도로망과 날짜별 실행 로그를 연결합니다.</span></div>
+      <section class="map-start" id="map-start" aria-labelledby="map-start-title">
+        <div class="map-start-card">
+          <span class="eyebrow">실행 로그 42개 · 차량 3대</span>
+          <h2 id="map-start-title">강내면 지도를 연결하세요.</h2>
+          <p>V-World 인증키로 실제 지역 지도를 열거나, 별도 키 없이 Cesium 지도에서 운행을 확인할 수 있습니다.</p>
+          <div class="map-start-actions"><button id="open-map-settings" class="primary">V-World 인증키 입력</button><button id="start-cesium-map" class="secondary">Cesium으로 열기</button></div>
+          <p id="map-start-message" class="muted" role="status">지도 준비가 끝나면 재생 버튼이 활성화됩니다.</p>
+        </div>
+      </section>
+      <div class="map-topline"><div class="camera-controls" aria-label="지도 시점 및 운행 의사결정"><button data-camera="overview" class="active" title="강내면 전체 조감도">조감도</button><button data-camera="follow" title="선택 차량 추적">차량 추적</button><button data-camera="eye" title="선택 차량 눈높이">눈높이</button><button data-camera="interior" title="차량 내부 승객·물류">차량 내부</button><button data-camera="roadview" title="선택 차량 주변의 실제 카카오 촬영 사진">실제 로드뷰</button><button data-camera="decision" class="decision-mode-button" title="V-World와 원본 배차 계획을 50:50으로 보기">DRT 경로 및 의사결정</button></div></div>
+      <div class="map-zoom-controls" role="group" aria-label="지도 확대와 축소"><button id="map-zoom-in" type="button" aria-label="지도 확대" title="지도 확대">+</button><button id="map-zoom-out" type="button" aria-label="지도 축소" title="지도 축소">−</button></div>
+      <section id="passenger-call-alert" class="passenger-call-alert" role="status" aria-live="polite" aria-atomic="true" hidden>
+        <div class="call-alert-heading"><strong>신규 여객 호출</strong><time id="call-alert-time"></time><button id="dismiss-call-alert" type="button" aria-label="신규 여객 호출 알림 닫기">×</button></div>
+        <p class="call-alert-route"><span id="call-alert-origin"></span><span aria-hidden="true">→</span><span id="call-alert-destination"></span></p>
+        <p id="call-alert-detail" class="call-alert-detail"></p>
+      </section>
+      <div class="current-scene" id="current-scene"><span class="vehicle-color"></span><div><small id="focus-caption">선택 차량</small><strong id="focus-status">운행자료 연결 중</strong><span id="focus-location">—</span></div><button id="focus-button" aria-label="선택 차량 가까이 보기"><svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 12h8m-4-4v8"/></svg></button></div>
+      <div class="live-totals" id="live-totals"><div><span>현재 대기</span><b>—</b></div><div><span>수송 완료</span><b>—</b></div><div><span>배송 완료</span><b>—</b></div></div>
+      <div class="map-bottom-meta"><span id="map-status">3D 지도 연결 중</span><button id="evidence-button">위치: 도로망 기반 보간</button></div>
+      <aside id="dispatch-panel" class="dispatch-panel" hidden aria-label="DRT 경로 및 의사결정" aria-hidden="true"></aside>
+      <section id="detail-panel" class="detail-panel" hidden aria-label="분석 패널"><header><div><span class="eyebrow" id="panel-eyebrow">실행 데이터</span><h2 id="panel-title">운영 비교</h2></div><button id="close-panel" class="icon-button" aria-label="패널 닫기">×</button></header><div id="panel-content" class="panel-content"></div></section>
+      <div class="toast" id="toast" role="status" hidden></div>
+    </section>
+    <section class="timeline" aria-label="운행 시간 조작">
+      <div class="timeline-top"><div class="time-display"><strong id="clock">06:30<span>:00</span></strong><span id="date-caption">2023.11.06 · S1 · 여객 + 물류</span></div><div class="playback"><button class="icon-button" id="rewind-button" title="5분 되감기" aria-label="5분 되감기"><svg viewBox="0 0 24 24"><path d="m11 7-7 5 7 5Zm9 0-7 5 7 5Z"/></svg></button><button id="play-button" class="play-button" aria-label="재생"><svg id="play-icon" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></svg></button><button class="icon-button" id="forward-button" title="5분 앞으로" aria-label="5분 앞으로"><svg viewBox="0 0 24 24"><path d="m4 7 7 5-7 5Zm9 0 7 5-7 5Z"/></svg></button><select id="speed-select" aria-label="재생 배속" hidden aria-hidden="true" tabindex="-1"><option value="1">1×</option><option value="2">2× · 장면</option><option value="10">10×</option><option value="60">60×</option><option value="120" selected>120×</option><option value="300">300×</option><option value="600">600×</option></select><div class="speed-control"><label for="speed-range">배속</label><input id="speed-range" type="range" min="0.1" max="600" step="0.1" value="120" aria-label="재생 배속 조절"><span class="speed-value"><input id="speed-number" type="number" min="0.1" max="600" step="0.1" value="120" inputmode="decimal" aria-label="재생 배속 직접 입력"><span aria-hidden="true">×</span></span></div></div><div class="event-controls"><button id="previous-event" aria-label="이전 서비스 이벤트">이전 이벤트</button><button id="events-button">이벤트 목록</button><button id="next-event" aria-label="다음 서비스 이벤트">다음 이벤트</button></div></div>
+      <div class="timeline-track"><canvas id="event-strip" aria-label="차량별 서비스 이벤트 분포"></canvas><input id="time-slider" type="range" min="30" max="990" step="0.01" value="30" aria-label="운행 시각" aria-valuetext="06:30"><div class="timeline-ticks"><span>06:30</span><span>08:30 <small>물류 시작</small></span><span>10:30</span><span>12:30</span><span>14:30</span><span>16:30</span><span>18:30</span><span>20:30</span><span>22:30</span></div></div>
+      <div class="timeline-foot"><span><i class="legend-dot mint"></i>차량 1 <i class="legend-dot amber"></i>차량 2 <i class="legend-dot purple"></i>차량 3</span><span>서비스 종료 22:00 · 복귀 기한 22:30 <b>Asia/Seoul</b></span></div>
+    </section>
+  </main>
+  <dialog id="settings-dialog"><form method="dialog">
+    <div class="dialog-head"><div><span class="eyebrow">지도 환경</span><h2>지도·표시 설정</h2></div><button class="icon-button" value="cancel" aria-label="설정 닫기">×</button></div>
+    <section class="presentation-settings" aria-labelledby="presentation-settings-title">
+      <h3 id="presentation-settings-title">발표 화면</h3>
+      <div class="settings-check-grid"><label><input id="call-alerts-enabled" type="checkbox" checked>신규 여객 호출 알림</label><label><input id="bubble-enabled" type="checkbox" checked>승하차 시간 말풍선</label></div>
+    </section>
+    <section class="layer-settings" aria-labelledby="layer-settings-title"><h3 id="layer-settings-title">지도 표시</h3>
+<div class="map-toggles"><label><input id="roads-toggle" type="checkbox" checked>도로망</label><label><input id="stops-toggle" type="checkbox" checked>정류장</label><label><input id="hubs-toggle" type="checkbox" checked>물류하차지</label><label class="boundary-legend"><input id="boundary-toggle" type="checkbox" checked disabled>강내면 경계</label></div>
+      <details class="environment-controls">
+        <summary><span class="environment-indicator" aria-hidden="true"></span>실제 공간정보 <small id="environment-counts">지도 연결 후 자동 표시</small></summary>
+        <div class="environment-options"><label><input id="environment-buildings" type="checkbox" checked>GIS 건물 모형 (해제: 지도 제공 건물)</label><label><input id="environment-roads" type="checkbox" checked>도로 면</label><label><input id="environment-bridges" type="checkbox" checked>교량 외곽선</label><label><input id="environment-terrain" type="checkbox" checked>표고점 기반 완만한 보정</label></div>
+        <p id="environment-status" role="status">첨부 공간정보가 기본으로 포함되어 있습니다. 지도 연결 시 자동으로 불러옵니다.</p>
+        <p class="environment-note">건물 높이 누락분·외벽·지붕 표현은 추정입니다. 교량 상판 높이는 실측값이 아닙니다. 공간자료 기준연도와 2023년 운행 날짜는 다를 수 있습니다.</p>
+      </details>
+    </section>
+    <details class="connection-settings" open><summary>지도·로드뷰 연결</summary>
+    <p>지도를 처음 열 때 엔진을 선택합니다. 실행 중 다른 엔진을 사용하려면 페이지를 새로고침하세요.</p>
+    <label for="vworld-key">V-World 3D API 인증키</label>
+    <input id="vworld-key" type="password" autocomplete="off" placeholder="이 페이지의 접속 주소에 사용할 수 있는 인증키">
+    <div class="engine-actions"><button id="connect-vworld" type="button" class="primary">V-World 연결</button><button id="start-cesium" type="button" class="secondary">키 없이 Cesium으로 열기</button></div>
+    <p class="muted">키는 이 탭에서 지도 공급원 요청에 사용하며 브라우저 저장소에 보관하지 않습니다.</p>
+    <details class="map-advanced"><summary>Cesium 지형·건물 설정</summary>
+      <p>Cesium 기본 지도는 실제 위성영상과 공개 DEM 지형입니다. ion 토큰을 연결하면 World Terrain과 OSM 건물을 사용할 수 있습니다.</p>
+      <label for="ion-token">Cesium ion 액세스 토큰 <span>선택</span></label><input id="ion-token" type="password" autocomplete="off" placeholder="Cesium으로 지도를 연 뒤 사용">
+      <div class="engine-actions"><button id="apply-settings" type="button" class="secondary">Cesium 지형·건물 적용</button></div>
+    </details>
+    <section id="roadview-settings" class="roadview-settings" aria-labelledby="roadview-heading-title">
+      <h3 id="roadview-heading-title">카카오 실제 로드뷰</h3>
+      <p>선택 차량 주변의 실제 촬영 지점을 찾습니다. V-World 지도는 그대로 유지됩니다.</p>
+      <label for="kakao-key">Kakao Maps JavaScript 키</label>
+      <input id="kakao-key" type="password" autocomplete="off" placeholder="REST API 키가 아닌 JavaScript 키">
+      <div class="engine-actions"><button id="connect-roadview" type="button" class="primary">로드뷰 연결</button></div>
+      <p class="muted">카카오 개발자 콘솔의 해당 JavaScript 키에 이 페이지의 접속 도메인(예: <code>http://localhost:8081</code>)을 등록해 주세요. 키는 이 탭에서만 사용합니다. <a href="https://apis.map.kakao.com/web/guide/" target="_blank" rel="noopener">카카오 공식 설정 안내</a></p>
+      <p class="muted">촬영 사진을 차례로 보여주는 모드입니다. 차량의 실제 GPS 영상이나 실시간 영상이 아니며 촬영 지점은 차량 좌표와 다를 수 있습니다. 3D 승하차·시설 모형은 V-World 화면에서 보입니다.</p>
+      <div id="roadview-settings-status" role="status">JavaScript 키 연결 대기</div>
+    </section>
+    </details>
+    <section class="boundary-settings" aria-labelledby="boundary-heading">
+      <h3 id="boundary-heading">강내면 기본 경계</h3>
+      <p>첨부된 QGIS 경계를 기본 레이어로 포함했습니다. 지도에서 <strong>테두리만</strong> 자동으로 표시됩니다.</p>
+      <div id="boundary-status" class="boundary-status" role="status">기본 경계를 불러오고 있습니다.</div>
+      <div class="boundary-actions"><button id="boundary-fit" type="button" class="secondary" disabled>경계 전체 보기</button></div>
+    </section>
+    <label class="file-label" for="network-upload">QGIS 도로 GeoJSON 추가 표시</label><input id="network-upload" type="file" accept=".geojson,.json">
+    <p class="muted">검증된 도로망과 42개 실행자료가 이미 포함되어 있습니다. 추가 파일은 EPSG:4326 도로선 표시용이며 차량의 운행 경로와 이벤트는 원본 실행자료를 따릅니다.</p>
+    <div id="settings-message" role="status"></div><div class="dialog-actions"><button value="cancel" class="secondary">닫기</button></div>
+  </form></dialog>
+  <script type="module" src="./app.js?v=20261125-v7"></script>
+</body>
+</html>

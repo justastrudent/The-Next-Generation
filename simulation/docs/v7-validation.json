@@ -1,0 +1,89 @@
+{
+  "release": "MetroRookies Visual Decision v7",
+  "date": "2026-11-25",
+  "sourceArchive": "MetroRookies_Visual_Decision_v6(1).zip",
+  "sourceArchiveSha256": "e2751520311ea953da7d2de0f9c46c7ba2b2b17b6ab05c5b8cfeaa349f1e1a90",
+  "automatedTests": {
+    "files": 20,
+    "nodeTests": 71,
+    "passed": 71,
+    "failed": 0,
+    "applicationChecks": 193,
+    "excluded": [
+      {
+        "file": "tests/replay-core.test.mjs",
+        "reason": "External original CSV sources referenced by this legacy test are not included in the provided ZIP."
+      }
+    ]
+  },
+  "preservation": {
+    "originalDataFiles": 195,
+    "originalProtectedFiles": 604,
+    "changedProtectedFiles": [],
+    "deletedOriginalFiles": [],
+    "changedOriginalFiles": [
+      "README.md",
+      "START_HERE.txt",
+      "app.js",
+      "dispatch-panel.js",
+      "environment3d.js",
+      "gangnae_vworld_qgis_3d_fixed.html",
+      "index.html",
+      "replay-core.js",
+      "research-workspace.js",
+      "scene3d.js",
+      "serve.py",
+      "tests/review-regressions.test.mjs",
+      "vworld-host.html",
+      "vworld-scene.js"
+    ]
+  },
+  "replayValidation": {
+    "reference": "MetroRookies_Visual_Decision_v6/replay-core.js",
+    "referenceSha256": "feacc236fa61ec58fd9af774e93f0533c3c42fcf7808e97997c0e231d392c592",
+    "runs": 42,
+    "boundarySeeks": 306460,
+    "randomSeeks": 12600,
+    "vehicleStates": 957444,
+    "maxNumericDifference": 0,
+    "canonicalInputsUnchanged": true,
+    "syntheticCases": 4,
+    "benchmark": {
+      "runId": "2023-11-06_integrated_S0",
+      "seeks": 12000,
+      "originalMilliseconds": 402.02279199999975,
+      "optimizedMilliseconds": 46.564399999999296,
+      "speedup": 8.633694238517103,
+      "scope": "pure CPU replay computation; excludes WebGL, tile fetching and browser layout"
+    }
+  },
+  "staticValidation": {
+    "pages": {
+      "index.html": {
+        "uniqueIds": 96,
+        "localReferencesValid": true,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover"
+      },
+      "gangnae_vworld_qgis_3d_fixed.html": {
+        "uniqueIds": 96,
+        "localReferencesValid": true,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover"
+      }
+    },
+    "javascriptFiles": 22,
+    "cssParse": "unavailable",
+    "errors": []
+  },
+  "browserValidation": {
+    "liveBrowser": false,
+    "liveVWorld": false,
+    "liveKakao": false,
+    "physicalMobileDevices": false,
+    "reason": "The browser security policy blocked this local preview. Browser pixels, authenticated map responses and real-device gestures were not tested."
+  },
+  "displayScope": {
+    "supportedLayoutIntent": "Desktop split view and responsive phone/tablet portrait and landscape",
+    "pixelPerfectAllDevicesClaimed": false,
+    "postalTruck": "Stationary illustrative scenery; not a fourth DRT or recorded operation."
+  }
+}

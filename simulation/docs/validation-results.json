@@ -1,0 +1,458 @@
+{
+  "status": "passed",
+  "checks": 1487642,
+  "runCount": 42,
+  "errorCount": 0,
+  "errors": [],
+  "warnings": [],
+  "runs": [
+    {
+      "id": "2023-11-06_integrated_S0",
+      "sourceRows": 598,
+      "movementEvents": 594,
+      "roadRoutes": 498,
+      "passengers": 94,
+      "parcels": 158,
+      "totalKm": 634.0309194268294,
+      "virtualParkingKm": 33.21544644782679
+    },
+    {
+      "id": "2023-11-06_integrated_S1",
+      "sourceRows": 700,
+      "movementEvents": 696,
+      "roadRoutes": 569,
+      "passengers": 94,
+      "parcels": 158,
+      "totalKm": 798.6701670207724,
+      "virtualParkingKm": 57.72716492916564
+    },
+    {
+      "id": "2023-11-06_integrated_S2",
+      "sourceRows": 657,
+      "movementEvents": 653,
+      "roadRoutes": 526,
+      "passengers": 94,
+      "parcels": 158,
+      "totalKm": 725.501196351684,
+      "virtualParkingKm": 55.35048074619189
+    },
+    {
+      "id": "2023-11-06_passenger_only_S0",
+      "sourceRows": 357,
+      "movementEvents": 355,
+      "roadRoutes": 303,
+      "passengers": 94,
+      "parcels": 0,
+      "totalKm": 549.6740371613822,
+      "virtualParkingKm": 3.3863877155608293
+    },
+    {
+      "id": "2023-11-06_passenger_only_S1",
+      "sourceRows": 507,
+      "movementEvents": 504,
+      "roadRoutes": 386,
+      "passengers": 94,
+      "parcels": 0,
+      "totalKm": 687.2504560835773,
+      "virtualParkingKm": 83.80872750069673
+    },
+    {
+      "id": "2023-11-06_passenger_only_S2",
+      "sourceRows": 487,
+      "movementEvents": 484,
+      "roadRoutes": 372,
+      "passengers": 94,
+      "parcels": 0,
+      "totalKm": 657.8325046841303,
+      "virtualParkingKm": 81.97578172597575
+    },
+    {
+      "id": "2023-11-07_integrated_S0",
+      "sourceRows": 597,
+      "movementEvents": 593,
+      "roadRoutes": 491,
+      "passengers": 94,
+      "parcels": 158,
+      "totalKm": 664.7468294181358,
+      "virtualParkingKm": 40.47360874400347
+    },
+    {
+      "id": "2023-11-07_integrated_S1",
+      "sourceRows": 716,
+      "movementEvents": 712,
+      "roadRoutes": 593,
+      "passengers": 94,
+      "parcels": 158,
+      "totalKm": 809.5311412348582,
+      "virtualParkingKm": 58.31028254717896
+    },
+    {
+      "id": "2023-11-07_integrated_S2",
+      "sourceRows": 675,
+      "movementEvents": 671,
+      "roadRoutes": 535,
+      "passengers": 94,
+      "parcels": 158,
+      "totalKm": 741.495840730583,
+      "virtualParkingKm": 59.63930361449684
+    },
+    {
+      "id": "2023-11-07_passenger_only_S0",
+      "sourceRows": 344,
+      "movementEvents": 342,
+      "roadRoutes": 291,
+      "passengers": 94,
+      "parcels": 0,
+      "totalKm": 550.3224540429891,
+      "virtualParkingKm": 4.515691978350997
+    },
+    {
+      "id": "2023-11-07_passenger_only_S1",
+      "sourceRows": 526,
+      "movementEvents": 523,
+      "roadRoutes": 403,
+      "passengers": 94,
+      "parcels": 0,
+      "totalKm": 723.0883431699963,
+      "virtualParkingKm": 81.51139990491485
+    },
+    {
+      "id": "2023-11-07_passenger_only_S2",
+      "sourceRows": 494,
+      "movementEvents": 491,
+      "roadRoutes": 379,
+      "passengers": 94,
+      "parcels": 0,
+      "totalKm": 670.5556840326552,
+      "virtualParkingKm": 85.44168055952561
+    },
+    {
+      "id": "2023-11-08_integrated_S0",
+      "sourceRows": 530,
+      "movementEvents": 526,
+      "roadRoutes": 440,
+      "passengers": 80,
+      "parcels": 158,
+      "totalKm": 637.8678159324209,
+      "virtualParkingKm": 44.98280117342628
+    },
+    {
+      "id": "2023-11-08_integrated_S1",
+      "sourceRows": 629,
+      "movementEvents": 625,
+      "roadRoutes": 503,
+      "passengers": 80,
+      "parcels": 158,
+      "totalKm": 757.4745305021279,
+      "virtualParkingKm": 73.38026236877874
+    },
+    {
+      "id": "2023-11-08_integrated_S2",
+      "sourceRows": 559,
+      "movementEvents": 555,
+      "roadRoutes": 452,
+      "passengers": 80,
+      "parcels": 158,
+      "totalKm": 706.4216090195224,
+      "virtualParkingKm": 65.192080196959
+    },
+    {
+      "id": "2023-11-08_passenger_only_S0",
+      "sourceRows": 295,
+      "movementEvents": 293,
+      "roadRoutes": 258,
+      "passengers": 80,
+      "parcels": 0,
+      "totalKm": 544.5966671151326,
+      "virtualParkingKm": 9.43932322204273
+    },
+    {
+      "id": "2023-11-08_passenger_only_S1",
+      "sourceRows": 424,
+      "movementEvents": 421,
+      "roadRoutes": 324,
+      "passengers": 80,
+      "parcels": 0,
+      "totalKm": 648.7453349517452,
+      "virtualParkingKm": 86.41155772285643
+    },
+    {
+      "id": "2023-11-08_passenger_only_S2",
+      "sourceRows": 415,
+      "movementEvents": 412,
+      "roadRoutes": 318,
+      "passengers": 80,
+      "parcels": 0,
+      "totalKm": 630.8613802394184,
+      "virtualParkingKm": 76.19277645769178
+    },
+    {
+      "id": "2023-11-09_integrated_S0",
+      "sourceRows": 448,
+      "movementEvents": 444,
+      "roadRoutes": 366,
+      "passengers": 85,
+      "parcels": 158,
+      "totalKm": 546.5257357856863,
+      "virtualParkingKm": 26.338231762139387
+    },
+    {
+      "id": "2023-11-09_integrated_S1",
+      "sourceRows": 626,
+      "movementEvents": 622,
+      "roadRoutes": 512,
+      "passengers": 85,
+      "parcels": 158,
+      "totalKm": 782.485071678315,
+      "virtualParkingKm": 45.664441973586946
+    },
+    {
+      "id": "2023-11-09_integrated_S2",
+      "sourceRows": 598,
+      "movementEvents": 594,
+      "roadRoutes": 488,
+      "passengers": 85,
+      "parcels": 158,
+      "totalKm": 716.4298480540597,
+      "virtualParkingKm": 62.13911825210491
+    },
+    {
+      "id": "2023-11-09_passenger_only_S0",
+      "sourceRows": 294,
+      "movementEvents": 292,
+      "roadRoutes": 246,
+      "passengers": 85,
+      "parcels": 0,
+      "totalKm": 519.294130394343,
+      "virtualParkingKm": 4.075166784741327
+    },
+    {
+      "id": "2023-11-09_passenger_only_S1",
+      "sourceRows": 423,
+      "movementEvents": 420,
+      "roadRoutes": 321,
+      "passengers": 85,
+      "parcels": 0,
+      "totalKm": 641.5845496884538,
+      "virtualParkingKm": 72.72400136166326
+    },
+    {
+      "id": "2023-11-09_passenger_only_S2",
+      "sourceRows": 427,
+      "movementEvents": 424,
+      "roadRoutes": 319,
+      "passengers": 85,
+      "parcels": 0,
+      "totalKm": 637.4487728485326,
+      "virtualParkingKm": 75.2534416772487
+    },
+    {
+      "id": "2023-11-10_integrated_S0",
+      "sourceRows": 523,
+      "movementEvents": 519,
+      "roadRoutes": 437,
+      "passengers": 82,
+      "parcels": 158,
+      "totalKm": 617.3115525006644,
+      "virtualParkingKm": 30.0
+    },
+    {
+      "id": "2023-11-10_integrated_S1",
+      "sourceRows": 614,
+      "movementEvents": 610,
+      "roadRoutes": 495,
+      "passengers": 82,
+      "parcels": 158,
+      "totalKm": 773.2562545424497,
+      "virtualParkingKm": 53.99883300214964
+    },
+    {
+      "id": "2023-11-10_integrated_S2",
+      "sourceRows": 611,
+      "movementEvents": 607,
+      "roadRoutes": 504,
+      "passengers": 82,
+      "parcels": 158,
+      "totalKm": 755.0532605331813,
+      "virtualParkingKm": 64.78960145936385
+    },
+    {
+      "id": "2023-11-10_passenger_only_S0",
+      "sourceRows": 303,
+      "movementEvents": 301,
+      "roadRoutes": 260,
+      "passengers": 82,
+      "parcels": 0,
+      "totalKm": 537.59007552959,
+      "virtualParkingKm": 6.999071215371657
+    },
+    {
+      "id": "2023-11-10_passenger_only_S1",
+      "sourceRows": 412,
+      "movementEvents": 409,
+      "roadRoutes": 327,
+      "passengers": 82,
+      "parcels": 0,
+      "totalKm": 631.793015621481,
+      "virtualParkingKm": 68.08751171477422
+    },
+    {
+      "id": "2023-11-10_passenger_only_S2",
+      "sourceRows": 412,
+      "movementEvents": 409,
+      "roadRoutes": 323,
+      "passengers": 82,
+      "parcels": 0,
+      "totalKm": 634.7415493186295,
+      "virtualParkingKm": 71.86707266894956
+    },
+    {
+      "id": "2023-11-11_integrated_S0",
+      "sourceRows": 363,
+      "movementEvents": 359,
+      "roadRoutes": 308,
+      "passengers": 49,
+      "parcels": 158,
+      "totalKm": 479.1650270350408,
+      "virtualParkingKm": 37.441023733237785
+    },
+    {
+      "id": "2023-11-11_integrated_S1",
+      "sourceRows": 405,
+      "movementEvents": 401,
+      "roadRoutes": 333,
+      "passengers": 49,
+      "parcels": 158,
+      "totalKm": 562.9260189782444,
+      "virtualParkingKm": 54.095610194444504
+    },
+    {
+      "id": "2023-11-11_integrated_S2",
+      "sourceRows": 389,
+      "movementEvents": 385,
+      "roadRoutes": 325,
+      "passengers": 49,
+      "parcels": 158,
+      "totalKm": 479.1349612424941,
+      "virtualParkingKm": 50.18017094110108
+    },
+    {
+      "id": "2023-11-11_passenger_only_S0",
+      "sourceRows": 145,
+      "movementEvents": 144,
+      "roadRoutes": 118,
+      "passengers": 49,
+      "parcels": 0,
+      "totalKm": 345.7516382257767,
+      "virtualParkingKm": 15.0
+    },
+    {
+      "id": "2023-11-11_passenger_only_S1",
+      "sourceRows": 231,
+      "movementEvents": 228,
+      "roadRoutes": 171,
+      "passengers": 49,
+      "parcels": 0,
+      "totalKm": 419.3264045817723,
+      "virtualParkingKm": 62.39327655233507
+    },
+    {
+      "id": "2023-11-11_passenger_only_S2",
+      "sourceRows": 212,
+      "movementEvents": 209,
+      "roadRoutes": 155,
+      "passengers": 49,
+      "parcels": 0,
+      "totalKm": 395.59402832648834,
+      "virtualParkingKm": 57.09561019444449
+    },
+    {
+      "id": "2023-11-12_integrated_S0",
+      "sourceRows": 321,
+      "movementEvents": 317,
+      "roadRoutes": 266,
+      "passengers": 47,
+      "parcels": 158,
+      "totalKm": 445.39287602653997,
+      "virtualParkingKm": 34.687381507039575
+    },
+    {
+      "id": "2023-11-12_integrated_S1",
+      "sourceRows": 362,
+      "movementEvents": 358,
+      "roadRoutes": 306,
+      "passengers": 47,
+      "parcels": 158,
+      "totalKm": 517.4185159153703,
+      "virtualParkingKm": 38.551936550585594
+    },
+    {
+      "id": "2023-11-12_integrated_S2",
+      "sourceRows": 364,
+      "movementEvents": 360,
+      "roadRoutes": 297,
+      "passengers": 47,
+      "parcels": 158,
+      "totalKm": 484.8816516745794,
+      "virtualParkingKm": 49.5
+    },
+    {
+      "id": "2023-11-12_passenger_only_S0",
+      "sourceRows": 138,
+      "movementEvents": 137,
+      "roadRoutes": 113,
+      "passengers": 47,
+      "parcels": 0,
+      "totalKm": 337.90647521875184,
+      "virtualParkingKm": 18.503040359596113
+    },
+    {
+      "id": "2023-11-12_passenger_only_S1",
+      "sourceRows": 196,
+      "movementEvents": 193,
+      "roadRoutes": 146,
+      "passengers": 47,
+      "parcels": 0,
+      "totalKm": 387.95387362028004,
+      "virtualParkingKm": 48.62036755814982
+    },
+    {
+      "id": "2023-11-12_passenger_only_S2",
+      "sourceRows": 195,
+      "movementEvents": 192,
+      "roadRoutes": 146,
+      "passengers": 47,
+      "parcels": 0,
+      "totalKm": 387.28136101095913,
+      "virtualParkingKm": 49.62456655917832
+    }
+  ],
+  "annualCostReference": {
+    "S0": {
+      "annualDistanceKm": 209877,
+      "annualOperatingKrw": 43484134,
+      "unitKrwPerKm": 207.19,
+      "weeklyReplayDistanceKm": 4025.040756125318,
+      "annualDistanceFromReplayKm": 209877.12514082014,
+      "calculatedUnitKrwPerKm": 207.18865811880292
+    },
+    "S1": {
+      "annualDistanceKm": 260806,
+      "annualOperatingKrw": 47330294,
+      "unitKrwPerKm": 181.48,
+      "weeklyReplayDistanceKm": 5001.761699872138,
+      "annualDistanceFromReplayKm": 260806.1457790472,
+      "calculatedUnitKrwPerKm": 181.47701356563883
+    },
+    "S2": {
+      "annualDistanceKm": 240322,
+      "annualOperatingKrw": 45783344,
+      "unitKrwPerKm": 190.51,
+      "weeklyReplayDistanceKm": 4608.918367606104,
+      "annualDistanceFromReplayKm": 240322.1720251754,
+      "calculatedUnitKrwPerKm": 190.5083346510099
+    }
+  },
+  "electricityEstimateKrwPerKm": 75.52,
+  "scope": "Export-to-original-log numerical and semantic comparison; reconstructed road linework checks. Not field validation or optimisation re-execution."
+}

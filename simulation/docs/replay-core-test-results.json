@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "checks": 203230,
+  "runCount": 42,
+  "movementCount": 18384,
+  "parkingCount": 1479,
+  "serviceCount": 7913,
+  "errorCount": 0,
+  "errors": []
+}

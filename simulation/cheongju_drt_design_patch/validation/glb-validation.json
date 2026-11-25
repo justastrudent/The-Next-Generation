@@ -1,0 +1,84 @@
+{
+  "status": "passed",
+  "models": [
+    {
+      "file": "drt-cheongju-01.glb",
+      "bytes": 3667168,
+      "sha256": "04903b1154d7e36ed9d146a7d21d138e9cb9f9a694f432bcddc9a2ac13b6c859",
+      "triangles": 67544,
+      "meshes": 105,
+      "nodes": 128,
+      "embeddedImages": 4,
+      "requiredNodesPresent": true,
+      "boundsMinM": [
+        -1.3499999940395355,
+        0.0,
+        -3.1820003981885985
+      ],
+      "boundsMaxM": [
+        1.3499999046325684,
+        2.680000066757202,
+        3.1729999780654907
+      ],
+      "sizeXYZM": [
+        2.699999898672104,
+        2.680000066757202,
+        6.35500037625409
+      ],
+      "externalAssets": 0
+    },
+    {
+      "file": "drt-cheongju-02.glb",
+      "bytes": 3667932,
+      "sha256": "e7ce143fa912969f55803479953513a68ce13f271f0af6e2a525dba01cef4c07",
+      "triangles": 67544,
+      "meshes": 105,
+      "nodes": 128,
+      "embeddedImages": 4,
+      "requiredNodesPresent": true,
+      "boundsMinM": [
+        -1.3499999940395355,
+        0.0,
+        -3.1820003981885985
+      ],
+      "boundsMaxM": [
+        1.3499999046325684,
+        2.680000066757202,
+        3.1729999780654907
+      ],
+      "sizeXYZM": [
+        2.699999898672104,
+        2.680000066757202,
+        6.35500037625409
+      ],
+      "externalAssets": 0
+    },
+    {
+      "file": "drt-cheongju-03.glb",
+      "bytes": 3673648,
+      "sha256": "ad7842d49b4cf0cd7b993e5177ac577d56f06def9e9f9830d899b7a80c9f3c4d",
+      "triangles": 67544,
+      "meshes": 105,
+      "nodes": 128,
+      "embeddedImages": 4,
+      "requiredNodesPresent": true,
+      "boundsMinM": [
+        -1.3499999940395355,
+        0.0,
+        -3.1820003981885985
+      ],
+      "boundsMaxM": [
+        1.3499999046325684,
+        2.680000066757202,
+        3.1729999780654907
+      ],
+      "sizeXYZM": [
+        2.699999898672104,
+        2.680000066757202,
+        6.35500037625409
+      ],
+      "externalAssets": 0
+    }
+  ],
+  "scope": "GLB binary, scene graph, material image embedding, metre bounds and animation-node contract. Not a live V-World GPU test."
+}

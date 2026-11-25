@@ -1,0 +1,47 @@
+{
+  "method": "Blender 4.3.2 Cycles CPU, 160 samples, imported final GLB rather than only original authoring scene",
+  "asset_frozen": true,
+  "views": [
+    {
+      "file": "cheongju_call_bus_three_quarter.png",
+      "sha256": "8a654d4f943cd6a2c435be000a7b223a3e1e8a464d66f466f0a33d5dde4311ab"
+    },
+    {
+      "file": "cheongju_call_bus_side.png",
+      "sha256": "71bc0dde5a12f42ac8f41bdf93194846d3f0d9d90facd1aa75fd6a8c9be16bf9"
+    },
+    {
+      "file": "cheongju_call_bus_doors_open.png",
+      "sha256": "7b1b2759f08e03fcecf843f97c8cadcd7c1c7070cdd9d6cf28b80267bfd2031a"
+    }
+  ],
+  "checks": [
+    "Photo-reference white van with dark glazed belt, red side stripe, lime rear roof and cyan front roof",
+    "Korean lettering and simulated fleet numbers embedded in the exported GLB",
+    "Roof header seam closed and no exterior raised window-frame blocks",
+    "Narrow sliding door moves rearward without covering the rear wheel face",
+    "HATCH -1.35 and HATCH_R +1.35 about glTF Y open the two rear doors outward",
+    "11 PAX groups and 8 CARGO groups retained; roof hiding supported"
+  ],
+  "limitations": [
+    "Single side photograph; estimated shape, dimensions and unseen front/rear/interior, not a CAD replica",
+    "Studio GLB rendering verified; VWorld live map and actual WebGL integration not checked by this modelling task"
+  ],
+  "models": [
+    {
+      "file": "drt-cheongju-01.glb",
+      "sha256": "04903b1154d7e36ed9d146a7d21d138e9cb9f9a694f432bcddc9a2ac13b6c859",
+      "bytes": 3667168
+    },
+    {
+      "file": "drt-cheongju-02.glb",
+      "sha256": "e7ce143fa912969f55803479953513a68ce13f271f0af6e2a525dba01cef4c07",
+      "bytes": 3667932
+    },
+    {
+      "file": "drt-cheongju-03.glb",
+      "sha256": "ad7842d49b4cf0cd7b993e5177ac577d56f06def9e9f9830d899b7a80c9f3c4d",
+      "bytes": 3673648
+    }
+  ]
+}

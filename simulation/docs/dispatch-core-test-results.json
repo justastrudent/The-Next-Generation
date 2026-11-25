@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "checks": 1410900,
+  "runCount": 42,
+  "callChecks": 3186,
+  "pathChecks": 24344,
+  "rewindChecks": 378,
+  "errors": []
+}

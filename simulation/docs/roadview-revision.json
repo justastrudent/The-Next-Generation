@@ -1,0 +1,32 @@
+{
+  "revisionDate": "2026-11-24",
+  "source": "metrorookies_vworld_fixed (2)(1).zip",
+  "changedExistingFiles": [
+    "app.js",
+    "assets/passenger.glb",
+    "cheongju-design.js",
+    "data/gangnae_boundary.geojson",
+    "docs/boundary-overlay-results.json",
+    "docs/review-regression-results.json",
+    "gangnae_vworld_qgis_3d_clean.html",
+    "gangnae_vworld_qgis_3d_fixed.html",
+    "index.html",
+    "README.md",
+    "scene3d.js",
+    "styles.css",
+    "tests/boundary-overlay.test.mjs",
+    "tests/review-regressions.test.mjs",
+    "vworld-scene.js"
+  ],
+  "verification": {
+    "appIntegrationChecks": 137,
+    "boundaryChecks": 76,
+    "roadviewAsyncCases": 14,
+    "serviceVisualCases": 9,
+    "modelCases": 3,
+    "protectedByteIdenticalFiles": 59,
+    "simulationRunsUnchanged": 42
+  },
+  "liveProviderVerification": "Not performed: no live V-World/Kakao keys and registered host available. SDK logic tested with doubles; actual GLBs reimported and rendered.",
+  "scope": "Only requested Roadview, mild V-World overview/terrain, automatic outline boundary, wording, parcel animation, person/facility models and square hub marker."
+}

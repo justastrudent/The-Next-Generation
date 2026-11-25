@@ -1,0 +1,90 @@
+{
+  "passed": true,
+  "sourceAttachment": "metrorookies_vworld_roadview(2).zip",
+  "sourceAttachmentSha256": "cd40d3dcf7264dce7270d7ba79bd5557d89c86756e8e3cd418e9b08b567330bc",
+  "build": "2026.11.24-v3",
+  "originalFiles": 518,
+  "originalDataFilesUnchanged": 58,
+  "originalAssetsUnchanged": 13,
+  "originalResearchRunFilesUnchanged": 42,
+  "missingOriginalFiles": [],
+  "modifiedOriginalFiles": [
+    "README.md",
+    "gangnae_vworld_qgis_3d_fixed.html",
+    "scene3d.js",
+    "index.html",
+    "vworld-scene.js",
+    "app.js",
+    "tests/review-regressions.test.mjs",
+    "docs/boundary-overlay-results.json",
+    "docs/review-regression-results.json"
+  ],
+  "canonicalReplayCoreUnchanged": true,
+  "referenceChecks": {
+    "duplicateHtmlIds": 0,
+    "missingHtmlReferences": [],
+    "missingModuleImports": [],
+    "missingDecisionRuns": [],
+    "missingEnvironmentTiles": [],
+    "activeEntrypointsIdentical": true
+  },
+  "tests": {
+    "replayCore": {
+      "passed": true,
+      "checks": 203230,
+      "runs": 42,
+      "source": "original events.csv, passengers.csv, parcels.csv, summary.json and vehicles.csv"
+    },
+    "dispatchCore": {
+      "passed": true,
+      "checks": 1410900,
+      "runCount": 42,
+      "callChecks": 3186,
+      "pathChecks": 24344,
+      "rewindChecks": 378,
+      "errors": []
+    },
+    "dispatchPanel": {
+      "passed": true,
+      "checks": 114,
+      "scope": "DOM and actual data, not browser pixels"
+    },
+    "environment": {
+      "passed": true,
+      "cases": 13,
+      "polygonParts": {
+        "buildings": 8666,
+        "roads": 5195,
+        "bridges": 94
+      },
+      "scope": "bundled Cesium CPU geometry and entity properties; no GPU pixels"
+    },
+    "application": {
+      "passed": true,
+      "checks": 150,
+      "scope": "actual app with DOM/map doubles and actual VWorld readiness helper"
+    },
+    "terrainLifecycle": {
+      "passed": true,
+      "checks": 19
+    },
+    "roadview": {
+      "passed": true,
+      "cases": 14,
+      "scope": "mock SDK callbacks, no live auth"
+    },
+    "services": {
+      "passed": true,
+      "cases": 9
+    },
+    "boundary": {
+      "passed": true,
+      "checks": 76
+    }
+  },
+  "notVerified": [
+    "Actual V-World/Kakao authentication and imagery responses",
+    "Browser GPU rendering and final pixel layout (Chromium startup rejected by sandbox socket permission)",
+    "Surveyed building exteriors and bridge deck elevations absent from supplied data"
+  ]
+}

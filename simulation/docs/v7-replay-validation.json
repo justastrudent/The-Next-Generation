@@ -1,0 +1,19 @@
+{
+  "reference": "MetroRookies_Visual_Decision_v6/replay-core.js",
+  "referenceSha256": "feacc236fa61ec58fd9af774e93f0533c3c42fcf7808e97997c0e231d392c592",
+  "runs": 42,
+  "boundarySeeks": 306460,
+  "randomSeeks": 12600,
+  "vehicleStates": 957444,
+  "maxNumericDifference": 0,
+  "canonicalInputsUnchanged": true,
+  "syntheticCases": 4,
+  "benchmark": {
+    "runId": "2023-11-06_integrated_S0",
+    "seeks": 12000,
+    "originalMilliseconds": 402.02279199999975,
+    "optimizedMilliseconds": 46.564399999999296,
+    "speedup": 8.633694238517103,
+    "scope": "pure CPU replay computation; excludes WebGL, tile fetching and browser layout"
+  }
+}

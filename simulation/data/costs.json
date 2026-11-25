@@ -1,0 +1,20 @@
+{
+  "label": "선행연구·운영 가정에 기반한 추정 원가",
+  "source": "자율주행DRT_원가_정리.pdf · 사용자 제공 확정 산정표",
+  "fleetSize": 3,
+  "annualDays": 365,
+  "kwhPerKm": 0.256,
+  "krwPerKwh": 295,
+  "electricityKrwPerKm": 75.52,
+  "purchaseKrwPerVehicle": 110925480,
+  "lifeYears": 9,
+  "residualRate": 0.35,
+  "insuranceKrwPerVehicleDay": 1918,
+  "maintenanceKrwPerVehicleDay": 1370,
+  "annualIntegrated": {
+    "S0": {"distanceKm": 209877, "operatingKrw": 43484134, "krwPerKm": 207.19},
+    "S1": {"distanceKm": 260806, "operatingKrw": 47330294, "krwPerKm": 181.48},
+    "S2": {"distanceKm": 240322, "operatingKrw": 45783344, "krwPerKm": 190.51}
+  },
+  "notes": ["연간 값은 통합운영 차량 3대 전체의 추정치이며 차량 수를 다시 곱하지 않습니다.", "일별 전력량·전력비는 선택한 실행의 총주행거리(가상 주차 탐색거리 포함)에 원단위를 곱한 추정치입니다.", "충전손실·충전시설·관제·통신·소프트웨어 비용은 포함하지 않았습니다.", "일부 2020년 보험·유지보수 단가는 물가로 보정하지 않았습니다.", "S2 배차 목적함수의 비용계수는 미확정이며 이 원가표와 별개입니다."]
+}

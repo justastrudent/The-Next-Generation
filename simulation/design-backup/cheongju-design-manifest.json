@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "state": "installed",
+  "source": "scene3d.js",
+  "source_original_sha256": "8faeab15ae28c116fbef3515588d559f5bb075189b363e2e0f110ef01b07c8f1",
+  "source_installed_sha256": "7d3b48a725d869d3f363561196ee7c7f7fe8525ddc30374a49f8f4ff29334501",
+  "entries": [
+    {
+      "path": "cheongju-design.js",
+      "existed_before": false,
+      "original_sha256": null,
+      "installed_sha256": "210096842c41eecb980ec743f327e03eafbd4c9f747e00715c88c48974e4fb17",
+      "backup": null,
+      "owned_write": true
+    },
+    {
+      "path": "assets/drt-cheongju-01.glb",
+      "existed_before": false,
+      "original_sha256": null,
+      "installed_sha256": "04903b1154d7e36ed9d146a7d21d138e9cb9f9a694f432bcddc9a2ac13b6c859",
+      "backup": null,
+      "owned_write": true
+    },
+    {
+      "path": "assets/drt-cheongju-02.glb",
+      "existed_before": false,
+      "original_sha256": null,
+      "installed_sha256": "e7ce143fa912969f55803479953513a68ce13f271f0af6e2a525dba01cef4c07",
+      "backup": null,
+      "owned_write": true
+    },
+    {
+      "path": "assets/drt-cheongju-03.glb",
+      "existed_before": false,
+      "original_sha256": null,
+      "installed_sha256": "ad7842d49b4cf0cd7b993e5177ac577d56f06def9e9f9830d899b7a80c9f3c4d",
+      "backup": null,
+      "owned_write": true
+    }
+  ],
+  "note": "Only the marked module hook and the four named design payloads belong to this installer."
+}

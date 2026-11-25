@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "checks": 76,
+  "errorCount": 0,
+  "errors": [],
+  "unchangedOriginalDataFiles": 0,
+  "changedOriginalDataFiles": [],
+  "scope": "Synthetic boundary fixtures only. Real validator and renderer methods with DOM/GPU doubles; original packaged research data hash comparison. The installed QGIS geometry matches the supplied source. Live map tiles and GPU pixels were not asserted.",
+  "sourceSha256": {
+    "boundary-data.js": "af3485235df5ff8ba98df43cb37310a7c63cfe94a2b72a70a92554c4823e9726",
+    "scene3d.js": "d394649d2c28d5e1de5f8223d78eb291f8ecb4d250fa29662288a424f291f761",
+    "vworld-scene.js": "8c15ce0e1e8a7782244b82c2b09cc29f573f6ccf9cffeb141206c3bba4664062",
+    "replay-core.js": "feacc236fa61ec58fd9af774e93f0533c3c42fcf7808e97997c0e231d392c592",
+    "data/gangnae_boundary.geojson": "106bd11d29ee5400a21f87b85a03272dc7f89218cc24463a4195b21f2a91de3f"
+  }
+}

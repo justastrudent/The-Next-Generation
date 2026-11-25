@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MetroRookies VWorld 지도</title>
+  <style>
+    html,body,#vmap{width:100%;height:100%;margin:0;overflow:hidden;background:#102c34}
+    #vmap,.cesium-widget canvas{touch-action:none;overscroll-behavior:contain}
+    .cesium-widget-credits{display:block!important}
+  </style>
+  <script>
+    // This helper is served from the app's real HTTP(S) origin, not about:srcdoc.
+    // document.write is confined to initial parsing here; it never rewrites the live parent app.
+    window.__metroVWorldSdk={loaded:false,failed:false};
+    (function(){
+      const host=window.frameElement;
+      const settings=host&&host.__metroVWorldBootstrap;
+      if(host)delete host.__metroVWorldBootstrap;
+      const key=String(settings&&settings.apiKey||'').trim();
+      if(!key){window.__metroVWorldSdk.failed=true;return;}
+      const url='https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey='+encodeURIComponent(key);
+      const safeURL=url.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+      document.write('<script src="'+safeURL+'" onload="window.__metroVWorldSdk.loaded=true" onerror="window.__metroVWorldSdk.failed=true"><'+'/script>');
+    })();
+  </script>
+</head>
+<body>
+  <div id="vmap" aria-label="강내면 VWorld 3D 지도"></div>
+</body>
+</html>

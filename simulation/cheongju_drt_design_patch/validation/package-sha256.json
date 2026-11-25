@@ -1,0 +1,22 @@
+{
+  "README.md": "69d0c1107eb64e101f8426a4ce42c7e8578a5558c6bd526c3452e730d02ac304",
+  "apply_design.bat": "7396bf235ab0c64a00e3c4a8a1f55e15175036878afab5f0fc98f4bafc92163e",
+  "apply_design.py": "520c30efc6d9ad8085bf894a6d199646957a247b3d13dcbac1822e9f09d5ab39",
+  "assets/drt-cheongju-01.glb": "04903b1154d7e36ed9d146a7d21d138e9cb9f9a694f432bcddc9a2ac13b6c859",
+  "assets/drt-cheongju-02.glb": "e7ce143fa912969f55803479953513a68ce13f271f0af6e2a525dba01cef4c07",
+  "assets/drt-cheongju-03.glb": "ad7842d49b4cf0cd7b993e5177ac577d56f06def9e9f9830d899b7a80c9f3c4d",
+  "cheongju-design.js": "210096842c41eecb980ec743f327e03eafbd4c9f747e00715c88c48974e4fb17",
+  "preview/cheongju_drt_doors.png": "7b1b2759f08e03fcecf843f97c8cadcd7c1c7070cdd9d6cf28b80267bfd2031a",
+  "preview/cheongju_drt_preview.png": "8a654d4f943cd6a2c435be000a7b223a3e1e8a464d66f466f0a33d5dde4311ab",
+  "preview/cheongju_drt_side.png": "71bc0dde5a12f42ac8f41bdf93194846d3f0d9d90facd1aa75fd6a8c9be16bf9",
+  "preview/vehicle_badge.png": "83a8517fe1b06ce710fce9ecf5dcd4b036bc6a25dc62b7680fdcab3297ebc2c3",
+  "restore_design.bat": "79d48f01d87f70f5aef134d3d7223caac693a8c90f93debbc438e5fd887526cb",
+  "source/build_cheongju_van.py": "5e849f0237af28a16b5a9a046f0c9631d340d2e423ac4b2ccfbbdd21584edcc9",
+  "tests/check_glb.py": "d91e91941d3442e1fc2c736b589419d104557c85c2d114a9d51ba09a67270b2d",
+  "tests/renderer-design.test.mjs": "e22caadfb2e9c1ca8844d6b3ace21170d51ec6493a9e1a8f825fb7e6644e09a0",
+  "tests/test_installer.py": "cbd7ffb0dd7a5df9d342e6d4e76d38734f2cf901b5afd2fe08946e5271399cb6",
+  "validation/checks.json": "6d52ddcef20753b411e35459961627bb698888fa751115aa87bac422f24b5815",
+  "validation/glb-validation.json": "60b06cb06239137c13ee34f04bb6bd5838e93d66f352db8bd3485c4171b7ed22",
+  "validation/model-report.json": "ea7c1875b2ede22e990846769c9555ddc7e9fa738ea125afa4960f0a81529087",
+  "validation/visual-qa.json": "842f7aa23513391fba18312eb8c09d6643b43a93e4cbf7ca6c1d6f8877d9b519"
+}

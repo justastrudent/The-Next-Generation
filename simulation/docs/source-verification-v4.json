@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-11-25",
+  "source": "GitHub plugin public repository tree + local Git blob hashes + ZIP member SHA256",
+  "repository": "https://github.com/km-minsang/MetroRookies",
+  "sourceCommit": "62f78246e3f0547607d0b95d944a9da981699fc1",
+  "archives": [
+    {
+      "path": "05_시뮬레이션코드/김민상_강내면_온라인DRT_주차3분_코드.zip",
+      "bytes": 211937,
+      "gitBlobSha": "e90577bfd686b4eab839e72d5e799b8856fc095e",
+      "sha256": "0b31ec0f4948f0bc5f161c4f3915aa770da257aa04d7306864a47e5ad2c6832f",
+      "matched": true
+    },
+    {
+      "path": "06_분석결과/김민상_주차3분_최종확정/김민상_주차3분_실행결과_2023-11-06.zip",
+      "bytes": 542160,
+      "gitBlobSha": "891b9c686816d7ad32782f3ca8fbc8b4e69d653b",
+      "sha256": "c7fa47a927615a6ef913b608c5113eed171ff56acc95cc44097ac694027b9a26",
+      "matched": true
+    },
+    {
+      "path": "06_분석결과/김민상_주차3분_최종확정/김민상_주차3분_실행결과_2023-11-07.zip",
+      "bytes": 550465,
+      "gitBlobSha": "def967c3b0b9a94d1666f24e6e38772af65c66ae",
+      "sha256": "8d17b68b9abe5152cd2a9339bd4c385fdc939613c400ad899e4ee1a5b3221e92",
+      "matched": true
+    },
+    {
+      "path": "06_분석결과/김민상_주차3분_최종확정/김민상_주차3분_실행결과_2023-11-08.zip",
+      "bytes": 456411,
+      "gitBlobSha": "6455c51a0b92e3909ef1450e717507ae11c36317",
+      "sha256": "54383c03f6fa8c8ce8bd43f8337ddd79a39d7a3332ff27463d2405c750902d27",
+      "matched": true
+    },
+    {
+      "path": "06_분석결과/김민상_주차3분_최종확정/김민상_주차3분_실행결과_2023-11-09.zip",
+      "bytes": 469909,
+      "gitBlobSha": "4c59dcdc9ca03318b36650d805e75c63c23a353f",
+      "sha256": "d1358389ab92e1f456fb6e36ab987417d16fe45dc39ccb4bafe5b46d0fc9630a",
+      "matched": true
+    },
+    {
+      "path": "06_분석결과/김민상_주차3분_최종확정/김민상_주차3분_실행결과_2023-11-10.zip",
+      "bytes": 470844,
+      "gitBlobSha": "3d3e67c119450009d84609a2807fffd6a73a2011",
+      "sha256": "df900368469d9fd2fb0461bd7e4acaac92c99a22135143f77033203f5e0fe019",
+      "matched": true
+    },
+    {
+      "path": "06_분석결과/김민상_주차3분_최종확정/김민상_주차3분_실행결과_2023-11-11.zip",
+      "bytes": 297238,
+      "gitBlobSha": "3728b674dfde546fbc7b8d2e4aa0deadf0d8d820",
+      "sha256": "55ae334ce40138f85c879b54f1d6a7069872752ccbb4092d13af9fd804b2dff1",
+      "matched": true
+    },
+    {
+      "path": "06_분석결과/김민상_주차3분_최종확정/김민상_주차3분_실행결과_2023-11-12.zip",
+      "bytes": 276658,
+      "gitBlobSha": "32697d821fb474e39fbf1cd48921dca1cd8a6b63",
+      "sha256": "53613cbe5006cc85c31037f03b20cb5b49cc1de009abb46b48ab86f22dcba3f2",
+      "matched": true
+    }
+  ],
+  "spatialProvenance": [
+    {
+      "path": "03_네트워크자료/강내면/강내우회경로/강내면_우회경로확장_검증본.gpkg",
+      "gitBlobSha": "c7a4e7b1f26a4d6668e78eb183f1b269cfed2ad0",
+      "matchedExistingProvenance": true
+    },
+    {
+      "path": "03_네트워크자료/강내면/강내우회경로/강내links_확장본_속도30.csv",
+      "gitBlobSha": "7b8bacb5cfa1350b62e2b9dcc037743c90c34da9",
+      "matchedExistingProvenance": true
+    },
+    {
+      "path": "02_청주지역자료/DRT호출데이터_청주전역_23년11월(231106-231112).xlsx",
+      "gitBlobSha": "fc3b7976d40b8e4dea119e1e1ef21efddadee287",
+      "matchedExistingProvenance": true
+    },
+    {
+      "path": "04_통행+물류자료/강내면_물류 데이터.xlsx",
+      "gitBlobSha": "3588030d627b446ffdcd524e577dcddd290c002f",
+      "matchedExistingProvenance": true
+    }
+  ],
+  "runChecks": [
+    {
+      "runId": "2023-11-06_integrated_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-06_integrated_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-06_integrated_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-06_passenger_only_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-06_passenger_only_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-06_passenger_only_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-07_integrated_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-07_integrated_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-07_integrated_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-07_passenger_only_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-07_passenger_only_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-07_passenger_only_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-08_integrated_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-08_integrated_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-08_integrated_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-08_passenger_only_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-08_passenger_only_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-08_passenger_only_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-09_integrated_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-09_integrated_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-09_integrated_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-09_passenger_only_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-09_passenger_only_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-09_passenger_only_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-10_integrated_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-10_integrated_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-10_integrated_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-10_passenger_only_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-10_passenger_only_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-10_passenger_only_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-11_integrated_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-11_integrated_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-11_integrated_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-11_passenger_only_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-11_passenger_only_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-11_passenger_only_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-12_integrated_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-12_integrated_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-12_integrated_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-12_passenger_only_S0",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-12_passenger_only_S1",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    },
+    {
+      "runId": "2023-11-12_passenger_only_S2",
+      "matchedOriginalPlans": true,
+      "matchedOriginalDecisions": true,
+      "matchedCanonicalReplay": true
+    }
+  ],
+  "runCount": 42,
+  "planSnapshots": 11368,
+  "passengerDecisions": 3186,
+  "passed": true
+}

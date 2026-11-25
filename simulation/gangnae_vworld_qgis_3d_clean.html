@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QGIS 실제 도로 네트워크(.geojson) + 브이월드 3D 무인 DRT 실주행 시뮬레이터</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; user-select: none; }
+    html, body, #vmap {
+      margin: 0; padding: 0; width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0b1120;
+    }
+    .cesium-widget-credits { display: none !important; }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+    input[type="file"]::file-selector-button {
+      background: #7c3aed; color: white; border: none;
+      padding: 4px 10px; border-radius: 8px;
+      font-size: 11px; font-weight: 700; cursor: pointer; margin-right: 8px;
+    }
+    input[type="file"]::file-selector-button:hover { background: #6d28d9; }
+    input[type="file"].qgis-btn::file-selector-button {
+      background: #059669;
+    }
+    input[type="file"].qgis-btn::file-selector-button:hover {
+      background: #047857;
+    }
+  </style>
+  <script>
+    const SAVED_VWORLD_KEY = localStorage.getItem('gangnae_vworld_api_key') || '';
+    if (SAVED_VWORLD_KEY) {
+      document.write(
+        '<script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=' +
+        encodeURIComponent(SAVED_VWORLD_KEY) +
+        '"><\/script>'
+      );
+    }
+  </script>
+</head>
+<body>
+  <div id="vmap"></div>
+
+  <!-- 좌상단: 실시간 여객·화물 통합 운행 HUD -->
+  <div class="fixed top-4 left-4 z-20 flex flex-col gap-2 max-w-md pointer-events-auto">
+    <div class="glass-panel rounded-2xl p-4 text-white">
+      <div class="flex items-center gap-2 mb-1.5">
+        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-purple-600 text-white">
+          QGIS 실제 도로망 + V-World 3D
+        </span>
+        <span id="vworld-status" class="text-[11px] font-bold text-amber-400">
+          ● 인증키 입력 대기 중
+        </span>
+      </div>
+      <h1 id="hud-title" class="text-base sm:text-lg font-black tracking-tight">
+        1단계: 강내우체국 화물 상차 (우체국 3호 8박스)
+      </h1>
+      <p id="hud-desc" class="text-xs text-slate-300 mt-1 leading-relaxed">
+        강내우체국 앞에 정차하여 우체국 3호 규격 박스 8개를 후면 트렁크에 적재합니다.
+      </p>
+
+      <div class="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-white/10 text-center">
+        <div class="bg-white/5 rounded-xl py-1.5 px-2">
+          <div class="text-[11px] text-slate-400">트렁크 화물</div>
+          <div class="text-sm font-extrabold text-amber-400 mt-0.5">
+            <span id="hud-cargo">0</span> / 8 박스
+          </div>
+        </div>
+        <div class="bg-white/5 rounded-xl py-1.5 px-2">
+          <div class="text-[11px] text-slate-400">객실 승객</div>
+          <div class="text-sm font-extrabold text-emerald-400 mt-0.5">
+            <span id="hud-pax">0</span> / 11 인승
+          </div>
+        </div>
+        <div class="bg-white/5 rounded-xl py-1.5 px-2">
+          <div class="text-[11px] text-slate-400">주행 경로 / 속도</div>
+          <div id="hud-node" class="text-xs font-extrabold text-sky-400 mt-1 truncate">
+            0 km/h · N1 강내우체국
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 우상단: QGIS 네트워크(.geojson) 업로드 + 브이월드 인증키 + .glb 모델 패널 -->
+  <div class="fixed top-4 right-4 z-20 flex flex-col gap-2 w-84 max-w-sm pointer-events-auto">
+    <div class="glass-panel rounded-2xl p-3.5 text-white">
+      <!-- 1. QGIS 내보내기 파일(.geojson) 즉시 업로드 -->
+      <div class="bg-emerald-950/60 border border-emerald-500/30 rounded-xl p-2.5 mb-2.5">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs font-extrabold text-emerald-300">🗺️ QGIS 도로 네트워크 (.geojson) 적용</span>
+          <span id="qgis-badge" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-slate-300">
+            기본 경로 사용 중
+          </span>
+        </div>
+        <input type="file" id="qgis-geojson-input" accept=".geojson,.json" class="qgis-btn w-full text-[11px] text-slate-200" />
+        <p id="qgis-msg" class="text-[10px] text-emerald-200/80 mt-1 leading-snug">
+          QGIS에서 <b>[내보내기 → 객체를 다른 이름으로 저장 → GeoJSON (EPSG:4326)]</b>으로 뽑은 파일을 넣으면 그 도로선 그대로 차량이 달립니다!
+        </p>
+      </div>
+
+      <!-- 2. 브이월드 인증키 -->
+      <div class="text-xs font-extrabold text-sky-300 mb-1">
+        🇰🇷 브이월드(V-World) 3D API 3.0 인증키
+      </div>
+      <div class="flex gap-1.5">
+        <input type="text" id="vworld-api-key" placeholder="브이월드 인증키 붙여넣기"
+               class="flex-1 bg-slate-900/90 border border-white/15 rounded-lg px-2 py-1 text-[11px] text-white placeholder-slate-500 focus:outline-none focus:border-sky-400" />
+        <button onclick="saveAndBootVWorld()" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-[11px] font-bold">
+          실행
+        </button>
+      </div>
+
+      <!-- 3. 외부 .glb 차량 모델 -->
+      <div class="mt-2.5 pt-2.5 border-t border-white/10 space-y-1 text-[11px]">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-purple-300">🧊 외부 실사 3D 차량 (.glb)</span>
+          <span id="glb-badge" class="text-[10px] text-slate-400">기본 3D DRT</span>
+        </div>
+        <input type="file" id="glb-file-input" accept=".glb,.gltf" class="w-full text-slate-300" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 하단: 시점 전환 & 4단계 운행 제어 바 -->
+  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-20 w-[96%] max-w-6xl pointer-events-auto">
+    <div class="glass-panel rounded-2xl p-3 text-white flex flex-col xl:flex-row items-center justify-between gap-2.5">
+      <div class="flex flex-wrap items-center justify-center gap-1.5">
+        <button onclick="setCamView('eye')" id="btn-cam-eye" class="cam-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow">
+          👁️ 사람 눈높이 로드뷰
+        </button>
+        <button onclick="setCamView('bird')" id="btn-cam-bird" class="cam-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-slate-200">
+          🚁 3D 건물·도로 근접 추적
+        </button>
+        <button onclick="setCamView('overview')" id="btn-cam-overview" class="cam-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-slate-200">
+          🗺️ 전체 네트워크 조감
+        </button>
+        <button onclick="setCamView('free')" id="btn-cam-free" class="cam-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-slate-200">
+          🖱️ 마우스 자유 시점
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-1.5">
+        <button onclick="jumpStage(0)" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-rose-500/25 hover:bg-rose-500/40 text-rose-200 border border-rose-400/30">
+          1. 출발지 화물 상차
+        </button>
+        <button onclick="jumpStage(1)" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/25 hover:bg-emerald-500/40 text-emerald-200 border border-emerald-400/30">
+          2. 정류장1 승객 탑승
+        </button>
+        <button onclick="jumpStage(2)" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500/25 hover:bg-amber-500/40 text-amber-200 border border-amber-400/30">
+          3. 물류하차지 화물 하역
+        </button>
+        <button onclick="jumpStage(3)" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-sky-500/25 hover:bg-sky-500/40 text-sky-200 border border-sky-400/30">
+          4. 정류장2 승객 하차
+        </button>
+        <button onclick="cycleSpeed()" id="btn-speed" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white">
+          ⚡ 1.5배속
+        </button>
+        <button onclick="togglePlay()" id="btn-play" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-slate-900 hover:bg-slate-200">
+          ⏸ 일시정지
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. 기본 경로 및 QGIS GeoJSON(.geojson) 파싱 엔진
+    // =========================================================================
+    let savedQgisWaypoints = null;
+    let customStopIndices = null;
+    try {
+      const rawWp = localStorage.getItem('gangnae_qgis_waypoints');
+      if (rawWp) savedQgisWaypoints = JSON.parse(rawWp);
+      const rawIdx = localStorage.getItem('gangnae_qgis_stop_indices');
+      if (rawIdx) customStopIndices = JSON.parse(rawIdx);
+    } catch (e) {}
+
+    let WAYPOINTS = (Array.isArray(savedQgisWaypoints) && savedQgisWaypoints.length >= 2) ? savedQgisWaypoints : [
+      { lng: 127.36385, lat: 36.62715, name: 'N1 강내우체국' },
+      { lng: 127.36270, lat: 36.62510, name: '강내삼거리' },
+      { lng: 127.36135, lat: 36.62140, name: '태성탑연로 북단' },
+      { lng: 127.36020, lat: 36.61680, name: '한국교원대 삼거리' },
+      { lng: 127.35965, lat: 36.61220, name: 'N2 한국교원대 정류장1' },
+      { lng: 127.36180, lat: 36.61195, name: '교원대 남측 교차로' },
+      { lng: 127.36520, lat: 36.61260, name: '탑연리 진입로' },
+      { lng: 127.36840, lat: 36.61610, name: '충청대 방면 도로' },
+      { lng: 127.36945, lat: 36.61965, name: 'N3 강내 물류 하차지' },
+      { lng: 127.36880, lat: 36.62280, name: '월곡리 연결도로' },
+      { lng: 127.36715, lat: 36.62535, name: 'N4 강내면 정류장2' },
+      { lng: 127.36540, lat: 36.62660, name: '강내면사무소 앞' },
+      { lng: 127.36385, lat: 36.62715, name: 'N1 강내우체국' }
+    ];
+
+    let viewer = null;
+    let routeLineEntity = null;
+    let nodeMarkerEntities = [];
+    let allNetworkEntities = [];
+
+    // =========================================================================
+    // QGIS GeoJSON 도로망 그래프 구축 + 다익스트라(Dijkstra) 최단경로 자동 탐색 엔진
+    // =========================================================================
+    const TARGET_STOPS = [
+      { lng: 127.36385, lat: 36.62715, name: 'N1 강내우체국 (화물 상차)' },
+      { lng: 127.35965, lat: 36.61220, name: 'N2 한국교원대 정류장1 (여객 탑승)' },
+      { lng: 127.36945, lat: 36.61965, name: 'N3 강내 물류 하차지 (화물 하역)' },
+      { lng: 127.36715, lat: 36.62535, name: 'N4 강내면 정류장2 (여객 하차)' }
+    ];
+
+    function haversineMeters(lng1, lat1, lng2, lat2) {
+      const R = 6371000;
+      const dLat = ((lat2 - lat1) * Math.PI) / 180;
+      const dLng = ((lng2 - lng1) * Math.PI) / 180;
+      const a = Math.sin(dLat / 2) ** 2 +
+                Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+      return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function buildRoadGraphAndRoute(lineSegments) {
+      const nodes = [];
+      const adj = new Map();
+
+      const getOrCreateNode = (lng, lat) => {
+        for (let i = 0; i < nodes.length; i++) {
+          if (Math.abs(nodes[i].lng - lng) < 0.000045 && Math.abs(nodes[i].lat - lat) < 0.00004) {
+            return nodes[i].id;
+          }
+        }
+        const id = nodes.length;
+        nodes.push({ id, lng, lat });
+        adj.set(id, []);
+        return id;
+      };
+
+      lineSegments.forEach((seg) => {
+        for (let i = 0; i < seg.length - 1; i++) {
+          const p1 = seg[i];
+          const p2 = seg[i + 1];
+          if (!Array.isArray(p1) || !Array.isArray(p2)) continue;
+          const u = getOrCreateNode(Number(p1[0]), Number(p1[1]));
+          const v = getOrCreateNode(Number(p2[0]), Number(p2[1]));
+          if (u === v) continue;
+          const dist = haversineMeters(nodes[u].lng, nodes[u].lat, nodes[v].lng, nodes[v].lat);
+          adj.get(u).push({ to: v, dist });
+          adj.get(v).push({ to: u, dist });
+        }
+      });
+
+      if (nodes.length < 2) return null;
+
+      const findNearestNode = (targetLng, targetLat) => {
+        let bestId = 0;
+        let bestDist = Infinity;
+        for (let i = 0; i < nodes.length; i++) {
+          const d = haversineMeters(targetLng, targetLat, nodes[i].lng, nodes[i].lat);
+          if (d < bestDist) {
+            bestDist = d;
+            bestId = i;
+          }
+        }
+        return bestId;
+      };
+
+      const dijkstra = (startId, endId) => {
+        const dist = new Float64Array(nodes.length).fill(Infinity);
+        const prev = new Int32Array(nodes.length).fill(-1);
+        const visited = new Uint8Array(nodes.length);
+        dist[startId] = 0;
+
+        for (let step = 0; step < nodes.length; step++) {
+          let u = -1;
+          let minD = Infinity;
+          for (let i = 0; i < nodes.length; i++) {
+            if (!visited[i] && dist[i] < minD) {
+              minD = dist[i];
+              u = i;
+            }
+          }
+          if (u === -1 || u === endId) break;
+          visited[u] = 1;
+
+          const edges = adj.get(u) || [];
+          for (let j = 0; j < edges.length; j++) {
+            const e = edges[j];
+            const alt = dist[u] + e.dist;
+            if (alt < dist[e.to]) {
+              dist[e.to] = alt;
+              prev[e.to] = u;
+            }
+          }
+        }
+
+        if (dist[endId] === Infinity) {
+          return [nodes[startId], nodes[endId]];
+        }
+        const path = [];
+        let curr = endId;
+        while (curr !== -1) {
+          path.push(nodes[curr]);
+          curr = prev[curr];
+        }
+        return path.reverse();
+      };
+
+      const stopNodeIds = TARGET_STOPS.map((s) => findNearestNode(s.lng, s.lat));
+      const fullRoute = [];
+      const stopWaypointIndices = [];
+
+      const legs = [
+        [stopNodeIds[0], stopNodeIds[1], TARGET_STOPS[0].name],
+        [stopNodeIds[1], stopNodeIds[2], TARGET_STOPS[1].name],
+        [stopNodeIds[2], stopNodeIds[3], TARGET_STOPS[2].name],
+        [stopNodeIds[3], stopNodeIds[0], TARGET_STOPS[3].name]
+      ];
+
+      legs.forEach(([fromId, toId, startLabel]) => {
+        const legNodes = dijkstra(fromId, toId);
+        stopWaypointIndices.push(fullRoute.length);
+        legNodes.forEach((n, idx) => {
+          if (idx === 0 && fullRoute.length > 0) return;
+          fullRoute.push({
+            lng: n.lng,
+            lat: n.lat,
+            name: idx === 0 ? startLabel : `QGIS 도로노드 #${n.id}`
+          });
+        });
+      });
+
+      return { fullRoute, stopWaypointIndices };
+    }
+
+    document.getElementById('qgis-geojson-input').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const geojson = JSON.parse(evt.target.result);
+          const features = geojson.type === 'FeatureCollection' ? geojson.features : [geojson];
+          const lineSegments = [];
+
+          features.forEach((f) => {
+            if (!f || !f.geometry) return;
+            const g = f.geometry;
+            if (g.type === 'LineString') {
+              lineSegments.push(g.coordinates);
+            } else if (g.type === 'MultiLineString') {
+              g.coordinates.forEach((seg) => lineSegments.push(seg));
+            }
+          });
+
+          if (lineSegments.length === 0) {
+            alert('GeoJSON 안에 도로 선(LineString / MultiLineString) 데이터가 없습니다.');
+            return;
+          }
+
+          const sampleCoord = lineSegments[0][0];
+          if (Math.abs(sampleCoord[0]) > 180 || Math.abs(sampleCoord[1]) > 90) {
+            alert('좌표계가 위·경도(EPSG:4326)가 아닙니다!\nQGIS에서 [다른 이름으로 저장] 할 때 좌표계(CRS)를 "EPSG:4326 - WGS 84"로 선택해 주세요.');
+            return;
+          }
+
+          const routed = buildRoadGraphAndRoute(lineSegments);
+          if (!routed || routed.fullRoute.length < 2) {
+            alert('도로망 경로를 생성하지 못했습니다.');
+            return;
+          }
+
+          WAYPOINTS = routed.fullRoute;
+          customStopIndices = routed.stopWaypointIndices;
+
+          try {
+            localStorage.setItem('gangnae_qgis_waypoints', JSON.stringify(WAYPOINTS));
+            localStorage.setItem('gangnae_qgis_stop_indices', JSON.stringify(customStopIndices));
+            localStorage.setItem('gangnae_qgis_filename', file.name);
+          } catch (err) {}
+
+          simTime = 0.5;
+          document.getElementById('qgis-badge').textContent = `✅ ${file.name} (최적경로 ${WAYPOINTS.length}노드)`;
+          document.getElementById('qgis-badge').className = 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/30 text-emerald-200';
+          document.getElementById('qgis-msg').textContent = `전체 ${lineSegments.length}개 링크 중 4대 거점을 잇는 실제 도로 최단경로(${WAYPOINTS.length}개 정점)만 깔끔하게 추출했습니다!`;
+
+          if (viewer) {
+            rebuildRouteVisuals(lineSegments);
+            setCamView('bird');
+          }
+        } catch (err) {
+          alert('GeoJSON 파일을 읽는 중 오류가 발생했습니다: ' + err.message);
+        }
+      };
+      reader.readAsText(file, 'UTF-8');
+    });
+
+    function rebuildRouteVisuals(extraSegments = null) {
+      if (!viewer) return;
+      if (routeLineEntity) viewer.entities.remove(routeLineEntity);
+      nodeMarkerEntities.forEach((ent) => viewer.entities.remove(ent));
+      allNetworkEntities.forEach((ent) => viewer.entities.remove(ent));
+      nodeMarkerEntities = [];
+      allNetworkEntities = [];
+
+      // 배경 전체 도로망은 시야를 가리지 않도록 아주 얇은 반투명 흰선으로만 표시
+      if (extraSegments && extraSegments.length > 1) {
+        extraSegments.slice(0, 600).forEach((seg) => {
+          const ent = viewer.entities.add({
+            polyline: {
+              positions: Cesium.Cartesian3.fromDegreesArray(seg.flatMap((c) => [Number(c[0]), Number(c[1])])),
+              width: 1.5,
+              clampToGround: true,
+              material: Cesium.Color.WHITE.withAlpha(0.18)
+            }
+          });
+          allNetworkEntities.push(ent);
+        });
+      }
+
+      // 실제 DRT 차량이 주행하는 단일 최단경로선 (굵은 형광 하늘색)
+      routeLineEntity = viewer.entities.add({
+        polyline: {
+          positions: Cesium.Cartesian3.fromDegreesArray(WAYPOINTS.flatMap((w) => [w.lng, w.lat])),
+          width: 8,
+          clampToGround: true,
+          material: new Cesium.PolylineGlowMaterialProperty({
+            glowPower: 0.3,
+            color: Cesium.Color.DEEPSKYBLUE
+          })
+        }
+      });
+
+      const keyIndices = customStopIndices || [
+        0,
+        Math.floor((WAYPOINTS.length - 1) * 0.3),
+        Math.floor((WAYPOINTS.length - 1) * 0.65),
+        Math.floor((WAYPOINTS.length - 1) * 0.85)
+      ];
+      keyIndices.forEach((idx, sIdx) => {
+        const wp = WAYPOINTS[idx];
+        if (!wp) return;
+        const labelName = TARGET_STOPS[sIdx] ? TARGET_STOPS[sIdx].name : wp.name;
+        const ent = viewer.entities.add({
+          position: Cesium.Cartesian3.fromDegrees(wp.lng, wp.lat, 1.5),
+          point: {
+            pixelSize: 12,
+            color: Cesium.Color.BLUEVIOLET,
+            outlineColor: Cesium.Color.WHITE,
+            outlineWidth: 2,
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+          },
+          label: {
+            text: labelName,
+            font: 'bold 14px "Noto Sans KR"',
+            fillColor: Cesium.Color.WHITE,
+            outlineColor: Cesium.Color.BLACK,
+            outlineWidth: 3,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            pixelOffset: new Cesium.Cartesian2(0, -16),
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+          }
+        });
+        nodeMarkerEntities.push(ent);
+      });
+    }
+
+    // =========================================================================
+    // 2. 브이월드 3D & 차량·화물·승객 실주행 렌더링
+    // =========================================================================
+    let customGlbEntity = null;
+    let hasCustomGlb = false;
+
+    let currentLng = WAYPOINTS[0].lng;
+    let currentLat = WAYPOINTS[0].lat;
+    let currentGroundAlt = 45.0;
+    let currentHeading = 0;
+
+    let cargoCount = 0;
+    let paxCount = 0;
+    let boxAnimProg = 0;
+    let paxAnimProg = 0;
+    let workerActive = false;
+    let paxActive = false;
+    let speedMult = 1.5;
+
+    function saveAndBootVWorld() {
+      const key = document.getElementById('vworld-api-key').value.trim();
+      if (!key) { alert('브이월드 인증키를 입력해 주세요.'); return; }
+      localStorage.setItem('gangnae_vworld_api_key', key);
+      location.reload();
+    }
+
+    function getTerrainHeight(lng, lat) {
+      if (!viewer || typeof Cesium === 'undefined') return 45.0;
+      const carto = Cesium.Cartographic.fromDegrees(lng, lat);
+      const h = viewer.scene.globe.getHeight(carto);
+      return (typeof h === 'number' && !isNaN(h)) ? h : 45.0;
+    }
+
+    function localToCartesian(lng, lat, groundAlt, headingRad, rightM, forwardM, upM) {
+      const sinH = Math.sin(headingRad);
+      const cosH = Math.cos(headingRad);
+      const eastM = forwardM * sinH + rightM * cosH;
+      const northM = forwardM * cosH - rightM * sinH;
+      const dLat = northM / 111320.0;
+      const dLng = eastM / (111320.0 * Math.cos((lat * Math.PI) / 180));
+      return Cesium.Cartesian3.fromDegrees(lng + dLng, lat + dLat, groundAlt + upM);
+    }
+
+    window.addEventListener('load', () => {
+      const savedQgisName = localStorage.getItem('gangnae_qgis_filename');
+      if (savedQgisName && savedQgisWaypoints) {
+        document.getElementById('qgis-badge').textContent = `✅ ${savedQgisName} (${WAYPOINTS.length}개 노드)`;
+        document.getElementById('qgis-badge').className = 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/30 text-emerald-200';
+      }
+      if (!SAVED_VWORLD_KEY) return;
+      document.getElementById('vworld-api-key').value = SAVED_VWORLD_KEY;
+
+      if (typeof vw === 'undefined' || !vw.Map) {
+        document.getElementById('vworld-status').textContent = '❌ 인증키/도메인 불일치';
+        return;
+      }
+
+      const options = {
+        mapId: 'vmap',
+        initPosition: new vw.CameraPosition(
+          new vw.CoordZ(WAYPOINTS[0].lng, WAYPOINTS[0].lat, 80),
+          new vw.Direction(0, -25, 0)
+        ),
+        logo: true,
+        navigation: false
+      };
+
+      const map = new vw.Map();
+      map.setOption(options);
+      map.start();
+
+      const bindViewer = () => {
+        if (typeof ws3d !== 'undefined' && ws3d.viewer && !viewer) {
+          viewer = ws3d.viewer;
+          viewer.scene.globe.depthTestAgainstTerrain = false;
+          viewer.shadows = true;
+
+          document.getElementById('vworld-status').textContent = '● 브이월드 3D 실주행 활성됨';
+          document.getElementById('vworld-status').className = 'text-[11px] font-bold text-emerald-400';
+
+          rebuildRouteVisuals();
+          setupVehicleAndAgents();
+          return true;
+        }
+        return false;
+      };
+
+      vw.ws3dInitCallBack = bindViewer;
+      const pollTimer = setInterval(() => { if (bindViewer()) clearInterval(pollTimer); }, 250);
+    });
+
+    function setupVehicleAndAgents() {
+      const makeBusPart = (rightM, forwardM, upM, dimX, dimY, dimZ, color, outlineColor = null) => {
+        viewer.entities.add({
+          position: new Cesium.CallbackProperty(() => localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, rightM, forwardM, upM), false),
+          orientation: new Cesium.CallbackProperty(() => {
+            const pos = localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, rightM, forwardM, upM);
+            return Cesium.Transforms.headingPitchRollQuaternion(pos, new Cesium.HeadingPitchRoll(currentHeading - Math.PI / 2, 0, 0));
+          }, false),
+          box: {
+            dimensions: new Cesium.Cartesian3(dimX, dimY, dimZ),
+            material: color,
+            outline: !!outlineColor,
+            outlineColor: outlineColor || Cesium.Color.TRANSPARENT
+          },
+          show: new Cesium.CallbackProperty(() => !hasCustomGlb, false)
+        });
+      };
+
+      makeBusPart(0, 0, 0.92, 6.2, 2.08, 0.92, Cesium.Color.WHITE, Cesium.Color.LIGHTGRAY);
+      makeBusPart(0, 0, 0.56, 6.24, 2.12, 0.24, Cesium.Color.BLUEVIOLET);
+      makeBusPart(0, -0.1, 1.82, 5.6, 2.0, 0.88, Cesium.Color.fromCssColorString('#1e293b').withAlpha(0.82), Cesium.Color.WHITE);
+      makeBusPart(0, -0.05, 2.34, 5.8, 2.04, 0.16, Cesium.Color.WHITE);
+      makeBusPart(0, 2.1, 2.52, 0.35, 0.35, 0.2, Cesium.Color.BLACK, Cesium.Color.CYAN);
+      makeBusPart(0, -0.4, 2.52, 1.3, 1.1, 0.2, Cesium.Color.WHITESMOKE);
+      [[-0.95, 1.85], [0.95, 1.85], [-0.95, -1.85], [0.95, -1.85]].forEach(([wx, wy]) => {
+        makeBusPart(wx, wy, 0.42, 0.84, 0.28, 0.84, Cesium.Color.fromCssColorString('#18181b'));
+      });
+
+      customGlbEntity = viewer.entities.add({
+        position: new Cesium.CallbackProperty(() => localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, 0, 0, 0), false),
+        orientation: new Cesium.CallbackProperty(() => {
+          const pos = localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, 0, 0, 0);
+          return Cesium.Transforms.headingPitchRollQuaternion(pos, new Cesium.HeadingPitchRoll(currentHeading, 0, 0));
+        }, false),
+        show: new Cesium.CallbackProperty(() => hasCustomGlb, false)
+      });
+
+      const boxSlots = [
+        [-0.45, -2.2, 0.85], [0, -2.2, 0.85], [0.45, -2.2, 0.85],
+        [-0.45, -2.6, 0.85], [0, -2.6, 0.85], [0.45, -2.6, 0.85],
+        [-0.25, -2.4, 1.15], [0.25, -2.4, 1.15]
+      ];
+      boxSlots.forEach(([bx, by, bz], idx) => {
+        viewer.entities.add({
+          position: new Cesium.CallbackProperty(() => {
+            if (idx < cargoCount) {
+              return localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, bx, by, bz);
+            } else if (idx === cargoCount && workerActive) {
+              const rx = Cesium.Math.lerp(0, bx, boxAnimProg);
+              const ry = Cesium.Math.lerp(-4.2, by, boxAnimProg);
+              const rz = Cesium.Math.lerp(1.05, bz, boxAnimProg) + Math.sin(boxAnimProg * Math.PI) * 0.45;
+              return localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, rx, ry, rz);
+            }
+            return localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, 0, -4.2, 1.0);
+          }, false),
+          orientation: new Cesium.CallbackProperty(() => {
+            const pos = localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, 0, 0, 0);
+            return Cesium.Transforms.headingPitchRollQuaternion(pos, new Cesium.HeadingPitchRoll(currentHeading, 0, 0));
+          }, false),
+          box: {
+            dimensions: new Cesium.Cartesian3(0.42, 0.32, 0.26),
+            material: Cesium.Color.PERU,
+            outline: true,
+            outlineColor: Cesium.Color.CRIMSON
+          },
+          show: new Cesium.CallbackProperty(() => idx < cargoCount || (idx === cargoCount && workerActive), false)
+        });
+      });
+
+      viewer.entities.add({
+        position: new Cesium.CallbackProperty(() => {
+          const walkOffset = -4.2 + Math.sin(boxAnimProg * Math.PI) * 0.6;
+          return localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, 0, walkOffset, 0.9);
+        }, false),
+        cylinder: {
+          length: 1.72, topRadius: 0.22, bottomRadius: 0.25,
+          material: Cesium.Color.CRIMSON, outline: true, outlineColor: Cesium.Color.WHITE
+        },
+        label: {
+          text: new Cesium.CallbackProperty(() => `📦 화물 적재/하역 (${cargoCount}/8박스)`, false),
+          font: 'bold 13px "Noto Sans KR"',
+          fillColor: Cesium.Color.GOLD, outlineColor: Cesium.Color.BLACK, outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          pixelOffset: new Cesium.Cartesian2(0, -32)
+        },
+        show: new Cesium.CallbackProperty(() => workerActive, false)
+      });
+
+      for (let p = 0; p < 3; p++) {
+        viewer.entities.add({
+          position: new Cesium.CallbackProperty(() => {
+            const sideDist = Cesium.Math.lerp(3.2, 0.6, paxAnimProg);
+            const fwdOffset = 0.5 - p * 0.7;
+            return localToCartesian(currentLng, currentLat, currentGroundAlt, currentHeading, sideDist, fwdOffset, 0.88);
+          }, false),
+          cylinder: {
+            length: 1.68, topRadius: 0.21, bottomRadius: 0.23,
+            material: [Cesium.Color.DODGERBLUE, Cesium.Color.MEDIUMSEAGREEN, Cesium.Color.ORANGE][p],
+            outline: true, outlineColor: Cesium.Color.WHITE
+          },
+          label: p === 0 ? {
+            text: new Cesium.CallbackProperty(() => `🚶 여객 승·하차 (${paxCount}/11명)`, false),
+            font: 'bold 13px "Noto Sans KR"',
+            fillColor: Cesium.Color.LIGHTGREEN, outlineColor: Cesium.Color.BLACK, outlineWidth: 3,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cesium.Cartesian2(0, -32)
+          } : undefined,
+          show: new Cesium.CallbackProperty(() => paxActive && p === paxCount, false)
+        });
+      }
+    }
+
+    document.getElementById('glb-file-input').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file || !customGlbEntity) return;
+      const blobUrl = URL.createObjectURL(file);
+      customGlbEntity.model = new Cesium.ModelGraphics({ uri: blobUrl, minimumPixelSize: 64, maximumScale: 1.5 });
+      hasCustomGlb = true;
+      document.getElementById('glb-badge').textContent = `✅ ${file.name}`;
+      document.getElementById('glb-badge').className = 'text-[10px] font-bold text-emerald-400';
+    });
+
+    let simTime = 0, isPlaying = true, camView = 'bird';
+
+    function setCamView(mode) {
+      camView = mode;
+      document.querySelectorAll('.cam-btn').forEach((b) => {
+        b.className = 'cam-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-slate-200';
+      });
+      document.getElementById(`btn-cam-${mode}`).className = 'cam-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow';
+
+      if (viewer) {
+        if (mode === 'free') {
+          viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+        } else if (mode === 'overview') {
+          viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+          const mid = WAYPOINTS[Math.floor(WAYPOINTS.length / 2)];
+          viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(mid.lng, mid.lat, 1650),
+            orientation: { heading: 0, pitch: Cesium.Math.toRadians(-48), roll: 0 },
+            duration: 1.0
+          });
+        }
+      }
+    }
+
+    function jumpStage(idx) {
+      simTime = [0.5, 22.5, 44.5, 62.5][idx] || 0;
+      if (camView === 'overview' || camView === 'free') setCamView('bird');
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      document.getElementById('btn-play').textContent = isPlaying ? '⏸ 일시정지' : '▶ 재생하기';
+    }
+
+    function cycleSpeed() {
+      const speeds = [1.0, 1.5, 3.0];
+      speedMult = speeds[(speeds.indexOf(speedMult) + 1) % speeds.length];
+      document.getElementById('btn-speed').textContent = `⚡ ${speedMult}배속`;
+    }
+
+    function getRouteStateAtProgress(segIndexFloat) {
+      const maxIdx = WAYPOINTS.length - 1;
+      const clamped = Math.max(0, Math.min(maxIdx - 0.0001, segIndexFloat));
+      const idx = Math.floor(clamped);
+      const frac = clamped - idx;
+      const p1 = WAYPOINTS[idx];
+      const p2 = WAYPOINTS[idx + 1];
+      const lng = Cesium.Math.lerp(p1.lng, p2.lng, frac);
+      const lat = Cesium.Math.lerp(p1.lat, p2.lat, frac);
+      const heading = Math.atan2(
+        (p2.lng - p1.lng) * Math.cos((lat * Math.PI) / 180),
+        p2.lat - p1.lat
+      );
+      return { lng, lat, heading };
+    }
+
+    let lastTick = performance.now();
+    function updateLoop(now) {
+      requestAnimationFrame(updateLoop);
+      const dt = Math.min((now - lastTick) / 1000, 0.1);
+      lastTick = now;
+      if (isPlaying) simTime += dt * speedMult;
+
+      const maxSeg = Math.max(1, WAYPOINTS.length - 1);
+      const seg1 = (customStopIndices && customStopIndices[1]) ? customStopIndices[1] : maxSeg * 0.30;
+      const seg2 = (customStopIndices && customStopIndices[2]) ? customStopIndices[2] : maxSeg * 0.65;
+      const seg3 = (customStopIndices && customStopIndices[3]) ? customStopIndices[3] : maxSeg * 0.85;
+
+      const c = simTime % 80.0;
+      let segPos = 0, title = '', desc = '', nodeLabel = '';
+      workerActive = false; paxActive = false; boxAnimProg = 0; paxAnimProg = 0;
+
+      if (c < 10) {
+        segPos = 0.0;
+        workerActive = true;
+        const step = (c / 10.0) * 8.0;
+        cargoCount = Math.min(8, Math.floor(step));
+        boxAnimProg = step - Math.floor(step);
+        paxCount = 0;
+        title = '1단계: 출발지 화물 상차 (우체국 3호 8박스)';
+        desc = 'QGIS 네트워크 시점에서 트렁크에 우체국 박스 8개를 적재합니다.';
+        nodeLabel = `0 km/h · ${WAYPOINTS[0].name}`;
+      } else if (c < 22) {
+        segPos = Cesium.Math.lerp(0.0, seg1, (c - 10) / 12.0);
+        cargoCount = 8; paxCount = 0;
+        title = '자율주행 중: QGIS 도로 네트워크 1구간 주행';
+        desc = 'QGIS에서 추출한 실제 도로 링크 선형을 따라 여객 정류장으로 주행합니다.';
+        nodeLabel = '38 km/h · QGIS 1구간';
+      } else if (c < 32) {
+        segPos = seg1;
+        cargoCount = 8;
+        paxActive = true;
+        const pStep = ((c - 22) / 10.0) * 3.0;
+        paxCount = Math.min(3, Math.floor(pStep));
+        paxAnimProg = pStep - Math.floor(pStep);
+        title = '2단계: 정류장 1 여객 탑승 (3명)';
+        desc = '정류장에서 대기하던 승객 3명이 11인승 무인 DRT 차량에 탑승합니다.';
+        nodeLabel = '0 km/h · 정류장1 탑승';
+      } else if (c < 44) {
+        segPos = Cesium.Math.lerp(seg1, seg2, (c - 32) / 12.0);
+        cargoCount = 8; paxCount = 3;
+        title = '여객·화물 혼재 주행: QGIS 도로 네트워크 2구간';
+        desc = '승객 3명과 화물 8박스를 동시에 싣고 실제 도로 링크 위를 주행합니다.';
+        nodeLabel = '42 km/h · QGIS 2구간';
+      } else if (c < 54) {
+        segPos = seg2;
+        workerActive = true;
+        const uStep = ((c - 44) / 10.0) * 8.0;
+        cargoCount = Math.max(0, 7 - Math.floor(uStep));
+        boxAnimProg = 1.0 - (uStep - Math.floor(uStep));
+        paxCount = 3;
+        title = '3단계: 물류 거점 화물 하역 (8박스)';
+        desc = '물류 하차 거점에서 우체국 박스 8개를 모두 하역합니다.';
+        nodeLabel = '0 km/h · 물류하차지 하역';
+      } else if (c < 62) {
+        segPos = Cesium.Math.lerp(seg2, seg3, (c - 54) / 8.0);
+        cargoCount = 0; paxCount = 3;
+        title = '자율주행 중: QGIS 도로 네트워크 3구간';
+        desc = '화물 하역 후 승객의 목적지 정류장으로 이동합니다.';
+        nodeLabel = '35 km/h · QGIS 3구간';
+      } else if (c < 72) {
+        segPos = seg3;
+        cargoCount = 0;
+        paxActive = true;
+        const aStep = ((c - 62) / 10.0) * 3.0;
+        paxCount = Math.max(0, 2 - Math.floor(aStep));
+        paxAnimProg = 1.0 - (aStep - Math.floor(aStep));
+        title = '4단계: 목적지 정류장 2 여객 하차';
+        desc = '목적지 정류장에 정차하여 승객 3명이 모두 하차합니다.';
+        nodeLabel = '0 km/h · 정류장2 하차';
+      } else {
+        segPos = Cesium.Math.lerp(seg3, maxSeg, (c - 72) / 8.0);
+        cargoCount = 0; paxCount = 0;
+        title = '회차 주행: QGIS 도로 네트워크 복귀 구간';
+        desc = '다음 여객·화물 통합 운행을 위해 출발 거점으로 복귀합니다.';
+        nodeLabel = '32 km/h · 회차 복귀';
+      }
+
+      document.getElementById('hud-title').textContent = title;
+      document.getElementById('hud-desc').textContent = desc;
+      document.getElementById('hud-cargo').textContent = cargoCount;
+      document.getElementById('hud-pax').textContent = paxCount;
+      document.getElementById('hud-node').textContent = nodeLabel;
+
+      if (!viewer || typeof Cesium === 'undefined') return;
+
+      const state = getRouteStateAtProgress(segPos);
+      currentLng = state.lng;
+      currentLat = state.lat;
+      currentHeading = state.heading;
+      currentGroundAlt = getTerrainHeight(currentLng, currentLat);
+
+      const targetCenter = Cesium.Cartesian3.fromDegrees(currentLng, currentLat, currentGroundAlt + 1.4);
+
+      if (camView === 'eye') {
+        viewer.camera.lookAt(targetCenter, new Cesium.HeadingPitchRange(state.heading - 0.42, Cesium.Math.toRadians(-14), 15.0));
+      } else if (camView === 'bird') {
+        viewer.camera.lookAt(targetCenter, new Cesium.HeadingPitchRange(state.heading - 0.35, Cesium.Math.toRadians(-28), 55.0));
+      }
+    }
+
+    requestAnimationFrame(updateLoop);
+  </script>
+</body>
+</html>

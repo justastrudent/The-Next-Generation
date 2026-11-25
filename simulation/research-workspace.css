@@ -1,0 +1,48 @@
+/* Additions are scoped to environment controls and the optional 50:50 mode. */
+.topbar .brand-logo{display:block;width:76px;height:33px;object-fit:contain;flex:0 0 auto}
+@media(max-width:560px){.topbar .brand-logo{width:57px;height:auto}}
+.build-version{display:block;flex-basis:100%;color:#79cfbb;font-size:10px;letter-spacing:.02em;margin-top:7px}
+.side-footer{flex-wrap:wrap}
+.map-topline{z-index:7}
+.camera-controls{flex-wrap:wrap;justify-content:flex-end;max-width:calc(100% - 180px);gap:2px}
+.camera-controls .decision-mode-button{color:#8ce6ce;border:1px solid #4c8d7d70}
+.camera-controls .decision-mode-button.active{background:#1c5348;border-color:#5bb99f;color:#e7fff7}
+.environment-controls{position:absolute;left:25px;top:206px;z-index:4;max-width:min(370px,calc(100% - 50px));border:1px solid #546e715e;border-radius:9px;background:#10212def;backdrop-filter:blur(10px);font-size:11px;color:#d8e6ed;box-shadow:0 5px 20px #0002}
+.environment-controls summary{padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:7px;list-style:none}
+.environment-controls summary::-webkit-details-marker{display:none}
+.environment-controls summary::after{content:'⌄';color:#9dbbb6;margin-left:auto}
+.environment-controls[open] summary::after{content:'⌃'}
+.environment-controls summary small{font-size:10px;color:#94b5b0;margin-left:6px}
+.environment-indicator{width:6px;height:6px;border-radius:50%;background:#5cdbc0;flex:none}
+.environment-options{display:grid;grid-template-columns:1fr 1fr;gap:11px 8px;border-top:1px solid #6e8c9829;padding:12px}
+.environment-options label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.environment-options input{accent-color:#52e0c4;width:13px;height:13px;margin:0}
+.environment-controls p{padding:0 12px 10px;margin:0;line-height:1.65;font-size:11px;color:#b3c9d2}
+.environment-controls p.environment-note{font-size:10px;color:#8da7b6}
+.is-roadview .environment-controls{display:none}
+.map-stage #dispatch-panel[hidden]{display:none}
+.map-stage.is-decision #map{right:50%}
+.map-stage.is-decision #map-start{right:50%;padding:18px}
+.map-stage.is-decision #map-start .map-start-card{padding:22px}
+.map-stage.is-decision #map-start h2{font-size:22px}
+.map-stage.is-decision #dispatch-panel{position:absolute;left:50%;right:0;top:86px;bottom:0;z-index:4;min-width:0;border-left:1px solid #52716970;border-top:1px solid #52716950;border-top-left-radius:12px;background:#0e1a28}
+.map-stage.is-decision .map-toggles{max-width:calc(50% - 36px);gap:8px;flex-wrap:wrap}
+.map-stage.is-decision .environment-controls{left:18px;max-width:calc(50% - 36px);top:214px}
+.map-stage.is-decision .environment-controls summary{flex-wrap:wrap;gap:5px}
+.map-stage.is-decision .environment-controls summary small{margin-left:0;white-space:normal}
+.map-stage.is-decision .current-scene{left:18px;bottom:64px;min-width:0;max-width:none;right:calc(50% + 18px);padding:12px}
+.map-stage.is-decision .current-scene strong{font-size:15px}
+.map-stage.is-decision .live-totals{left:18px;right:calc(50% + 18px);bottom:155px;justify-content:space-between;gap:10px;padding:10px 12px}
+.map-stage.is-decision .live-totals b{font-size:18px}
+.map-stage.is-decision .map-bottom-meta{left:18px;right:calc(50% + 18px);bottom:18px;display:block}
+.map-stage.is-decision .map-bottom-meta span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map-stage.is-decision .map-bottom-meta button{display:block;margin-top:3px;text-align:left;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map-stage.is-decision .detail-panel{z-index:10}
+.map-stage.is-decision .place-label{padding:12px 14px}
+.map-stage.is-decision .place-label>strong{font-size:24px}
+.map-stage.is-decision .metro-map-caption{display:none}
+.camera-controls button:focus-visible,.environment-controls summary:focus-visible{outline:2px solid #8de9d0;outline-offset:3px}
+@media(max-width:1350px){.camera-controls{max-width:calc(100% - 164px)}.camera-controls button{font-size:11px;padding:8px 9px}.environment-controls{left:18px}.map-stage.is-decision .map-toggles{top:141px}.map-stage.is-decision .environment-controls{top:205px}}
+@media(max-width:1050px){.camera-controls{max-width:calc(100% - 145px)}.camera-controls button{font-size:10px;padding:7px 8px}.map-stage.is-decision .place-label{padding:10px}.map-stage.is-decision .place-label .eyebrow{font-size:8px}.map-stage.is-decision .place-label>strong{font-size:21px}.map-stage.is-decision .environment-controls summary small{display:none}.map-stage.is-decision .environment-options{grid-template-columns:1fr}.map-stage.is-decision .current-scene{gap:7px}.map-stage.is-decision .current-scene small{font-size:10px}.map-stage.is-decision .live-totals span{font-size:9px}}
+@media(max-width:860px){.map-stage.is-decision{min-height:640px}.workspace:has(.is-decision){grid-template-rows:640px 178px auto}.map-stage.is-decision .camera-controls{max-width:calc(100% - 160px)}.map-stage.is-decision .environment-controls{top:206px}.environment-controls{top:206px}}
+@media(max-width:560px){.map-stage.is-decision{min-height:690px}.workspace:has(.is-decision){grid-template-rows:690px 190px auto}.map-topline{right:10px;left:10px}.camera-controls{max-width:calc(100% - 130px)}.camera-controls button{font-size:10px}.environment-controls{left:12px;top:200px;max-width:calc(100% - 24px)}.map-stage.is-decision .camera-controls{max-width:calc(100% - 104px);flex-direction:row;gap:1px}.map-stage.is-decision .camera-controls button{padding:6px;font-size:9px}.map-stage.is-decision .place-label{padding:8px}.map-stage.is-decision .place-label .eyebrow{font-size:7px}.map-stage.is-decision .place-label>strong{font-size:19px}.map-stage.is-decision .place-label>strong span{display:none}.map-stage.is-decision .place-label>small{font-size:8px}.map-stage.is-decision #dispatch-panel{top:118px}.map-stage.is-decision .map-toggles{left:8px;top:133px;max-width:calc(50% - 16px);padding:8px;gap:7px}.map-stage.is-decision .map-toggles label{font-size:9px}.map-stage.is-decision .environment-controls{left:8px;top:229px;max-width:calc(50% - 16px)}.map-stage.is-decision .environment-controls summary{padding:8px;font-size:10px}.map-stage.is-decision .current-scene{left:8px;right:calc(50% + 8px);padding:9px;bottom:64px;gap:5px}.map-stage.is-decision .current-scene strong{font-size:12px}.map-stage.is-decision .current-scene small{font-size:9px}.map-stage.is-decision #focus-location{font-size:10px}.map-stage.is-decision #focus-button{display:none}.map-stage.is-decision .live-totals{left:8px;right:calc(50% + 8px);bottom:177px;gap:7px;padding:8px}.map-stage.is-decision .live-totals>div{gap:4px}.map-stage.is-decision .live-totals b{font-size:15px}.map-stage.is-decision .map-bottom-meta{left:8px;right:calc(50% + 8px);bottom:22px}}

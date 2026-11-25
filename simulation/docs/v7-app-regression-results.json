@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "checks": 193,
+  "errorCount": 0,
+  "errors": [],
+  "scope": "Application with source data and DOM/map doubles; supplied QGIS default boundary, missing/empty handling; Roadview mode, canonical coordinates and rewind; V7 actual-call alerts, fractional speed, coalesced seeks and time-gated passenger feedback; actual VWorld callback/terrain helpers with synthetic responses. No browser GPU or live API key validation.",
+  "sourceSha256": {
+    "app.js": "8dad4b8335f7ee87b5c94e64b04fb0dd17bb6b80c83ad67feedcf3285320bc30",
+    "boundary-data.js": "af3485235df5ff8ba98df43cb37310a7c63cfe94a2b72a70a92554c4823e9726",
+    "replay-core.js": "776c6bd2b0adc2f9d489bcd09385f9d8dc5a4268d41732bdf70033822fb10809",
+    "vworld-scene.js": "06f306943d736f67eeb8b1f65430af35dd11ad12d9d87489ccf3a7da06c53b6b",
+    "vworld-host.html": "46341d8b5890bed701bff653951e3c09a78d1da1d81e7003b1b7b3fca4f1d1d8",
+    "scene3d.js": "15ddb924404e9112244568ed3c7b352e006adb8fdc44fc040b937ecc60643a9b",
+    "passenger-feedback.js": "f364af2902238887b651b12f28b474e29e9ff701c7d4e7ef757bda61ad925b59",
+    "presentation-controls.js": "0637e1625fc135efe600d29bd5fcb0a0c17b298257c2d65558cf8cbd7a7fd59c"
+  }
+}
